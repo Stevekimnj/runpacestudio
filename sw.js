@@ -9,7 +9,7 @@
  *  - Tailwind CDN: 캐시된 것을 먼저 보여주고 뒤에서 새 버전 갱신
  *  - 그 외 외부 요청: 서비스워커가 관여하지 않음
  * ===================================================================== */
-const CACHE_VERSION = 'rps-v4';
+const CACHE_VERSION = 'rps-v5';
 const CDN_ORIGIN = 'https://cdn.tailwindcss.com';
 
 // 설치 시 미리 저장할 파일 목록

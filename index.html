@@ -38,7 +38,7 @@
     <!-- Tailwind CSS & 커스텀 테마 설정 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="tw-config.js"></script>
-    <script src="app.js" defer></script>
+    <script src="app.js?v=5" defer></script>
 
     <!-- 검색엔진 및 AdSense 최적화를 위한 FAQPage 구조화 데이터(JSON-LD) -->
     <script type="application/ld+json">
@@ -740,13 +740,33 @@
             </div>
             <div>
               <label for="pb-time" data-i18n="lblPbTime" class="mb-1 block text-xs font-bold text-slate-300">Goal Finish Time (h:mm:ss)</label>
-              <input
-                id="pb-time"
-                type="text"
-                inputmode="numeric"
-                value="3:30:00"
-                class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-3 text-center font-mono text-xl font-extrabold text-volt tabular-nums"
-              />
+              <div class="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  id="pb-minus-btn"
+                  aria-label="Decrease goal time by 30 seconds"
+                  class="h-12 w-12 shrink-0 rounded-xl bg-slate-800 text-xs font-extrabold text-slate-200 active:bg-volt active:text-slate-950"
+                >
+                  −30s
+                </button>
+                <input
+                  id="pb-time"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="20:00 or 3:30:00"
+                  value="3:30:00"
+                  class="h-12 w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 px-2 text-center font-mono text-xl font-extrabold text-volt tabular-nums focus:border-volt focus:outline-none"
+                />
+                <button
+                  type="button"
+                  id="pb-plus-btn"
+                  aria-label="Increase goal time by 30 seconds"
+                  class="h-12 w-12 shrink-0 rounded-xl bg-slate-800 text-xs font-extrabold text-slate-200 active:bg-volt active:text-slate-950"
+                >
+                  +30s
+                </button>
+              </div>
+              <div id="pb-quick-times" class="mt-1.5 flex flex-wrap gap-1"></div>
             </div>
             <div>
               <label for="pb-strategy" data-i18n="lblPbStrat" class="mb-1 block text-xs font-bold text-slate-300">Pacing Strategy</label>
