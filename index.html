@@ -1,0 +1,1120 @@
+<!doctype html>
+<!--
+  RunPaceStudio — index.html (v2 통합 완전체)
+  ------------------------------------------------------------------
+  [4대 메인 탭 구성]
+    1. Tab 1 (Incline & Pace) : 기본 MPH(MILE↔KM 원터치 변환) + 0~15% 경사도 평지 환산(GAP) + VO2/칼로리
+    2. Tab 2 (Workouts & Form): 4대 훈련 큐시트(시간/속도/경사 미세 수정) + 콘솔 타이머 + 엘리트 4인 주법 매칭
+    3. Tab 3 (Weather & MAF)  : 기온·이슬점(습도)·풍속 야외 보정기 + MAF 180 심박수 계산기
+    4. Tab 4 (Pace Band)      : 5K/10K/Half/Full 마라톤 구간별 스플릿 + 인쇄·저장·QR 공유
+  [하단 AdSense 심층 가이드]
+    - 2,000+ 단어 영문 트레이닝·경사도 과학·엘리트 바이오메카닉스 분석·FAQ 및 JSON-LD 스키마
+-->
+<html lang="en" class="bg-slate-950">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <!-- 🔒 보안 정책(CSP): 허용된 스크립트 외 외부 추적/악성 스크립트 원천 차단 -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://cdn.tailwindcss.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <title>RunPaceStudio — Treadmill Incline (0–15%) Pace Calculator, Workouts &amp; Marathon Pace Band</title>
+    <meta
+      name="description"
+      content="Science-backed treadmill pace & 0–15% incline GAP converter, VDOT workout cue-sheet generator, elite runner biomechanics studio, weather/wind adjuster, and marathon pace band."
+    />
+    <meta name="theme-color" content="#020617" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Tailwind CSS & 커스텀 테마 설정 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tw-config.js"></script>
+    <script src="app.js" defer></script>
+
+    <!-- 검색엔진 및 AdSense 최적화를 위한 FAQPage 구조화 데이터(JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Why does a 1% treadmill incline equal flat outdoor running?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "In a landmark 1996 study published in the Journal of Sports Sciences, Andrew Jones and Jonathan Doust measured oxygen uptake (VO2) in runners outdoors versus on a motorized treadmill at grades from 0% to 3%. Because you do not move through still air on a treadmill, you save the metabolic cost of overcoming wind resistance. Setting a 1% incline adds just enough gravitational work to match outdoor flat-ground oxygen cost at paces between 6:00/mi and 9:15/mi."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you convert treadmill speed and 0–15% incline into flat ground pace (GAP)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Using the American College of Sports Medicine (ACSM) running metabolic equation, net running oxygen cost is proportional to speed multiplied by (0.2 + 0.9 × fractional grade). By comparing that vertical plus horizontal cost against the 1% outdoor-equivalent reference factor (0.209), RunPaceStudio calculates your exact Grade Adjusted Pace (GAP) and flat-equivalent MPH or km/h across any incline from 0% up to 15%."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between Interval Training and Cruise Intervals?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "According to Dr. Jack Daniels' Running Formula, Interval (I-Pace) training targets 95–100% of VO2max using 3 to 5 minute bouts with equal or slightly shorter recovery jogs to maximize aerobic power. Cruise Intervals (T-Pace) are run at lactate threshold (roughly 83–88% VO2max or 88–92% HRmax, a pace you could race for 50–60 minutes) in 5 to 10 minute blocks separated by short 60-second float recoveries to build lactate clearance stamina."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does the MAF 180 heart rate formula work for recovery and aerobic base runs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Developed by Dr. Phil Maffetone, the MAF 180 formula estimates your maximum aerobic heart rate by subtracting your age from 180 and applying a clinical/training modifier (−10, −5, 0, or +5 bpm). Running at or below this ceiling prioritizes slow-twitch muscle fibers, mitochondrial biogenesis, and fat oxidation while minimizing cortisol and orthopedic stress."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How much do heat, dew point, and headwind slow down outdoor running pace?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Thermoregulatory skin blood flow diverts cardiac output away from working muscles when the sum of ambient temperature (°F) and dew point (°F) exceeds 120. At a combined score of 150, runners typically slow by 3% to 4.5% for the same heart rate. Additionally, aerodynamic studies by Pugh (1971) and Davies (1980) show that headwinds increase oxygen cost with the square of relative air velocity, whereas tailwinds return roughly half of that metabolic difference."
+            }
+          }
+        ]
+      }
+    </script>
+
+    <style>
+      /* hidden 속성이 언제나 최우선으로 적용되도록 강제 */
+      [hidden] { display: none !important; }
+      .tabular-nums { font-variant-numeric: tabular-nums; }
+      button, [data-step] { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+      .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+      nav [aria-current='page'] { color: #c6ff00; }
+      [aria-pressed='true'] { background: #c6ff00 !important; color: #020617 !important; border-color: #c6ff00 !important; }
+      @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+      /* 마라톤 페이스 밴드 인쇄 시 깔끔한 손목 밴드 형태로 출력 */
+      @media print {
+        header, nav, footer, #guide-article, .no-print { display: none !important; }
+        body { background: #ffffff !important; color: #000000 !important; }
+        #pb-table-wrap { border: 2px solid #000 !important; max-width: 320px !important; }
+      }
+    </style>
+  </head>
+
+  <body class="min-h-dvh bg-slate-950 font-sans text-slate-100 antialiased">
+    <!-- =========================================================
+         상단 고정 헤더: 로고 + MILE↔KM 원터치 변환 버튼 + Share/QR + 앱 설치
+         ========================================================= -->
+    <header class="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+      <div class="mx-auto flex max-w-2xl flex-wrap items-center justify-between gap-2 px-3 py-2.5">
+        <a href="./" class="flex items-center gap-2 text-base font-extrabold tracking-tight sm:text-lg">
+          <img src="icons/icon.svg" alt="" width="30" height="30" class="h-7 w-7 rounded-lg" />
+          <span>RunPace<span class="text-volt">Studio</span></span>
+        </a>
+
+        <div class="flex items-center gap-1.5">
+          <!-- 대표님 핵심 요청: 기본은 MPH(MILE)로 나타나고 버튼으로 MILE과 KM이 즉시 변환되는 토글 스위치 -->
+          <div class="inline-flex rounded-xl border border-slate-700 bg-slate-900 p-0.5" role="group" aria-label="Speed and distance unit converter">
+            <button
+              type="button"
+              data-unit-toggle="mi"
+              aria-pressed="true"
+              class="min-h-10 rounded-lg px-2.5 py-1 text-xs font-extrabold tracking-tight transition"
+            >
+              MPH · MILE
+            </button>
+            <button
+              type="button"
+              data-unit-toggle="km"
+              aria-pressed="false"
+              class="min-h-10 rounded-lg px-2.5 py-1 text-xs font-extrabold tracking-tight text-slate-300 transition"
+            >
+              KM/H · KM
+            </button>
+          </div>
+
+          <!-- 크루 공유(링크 & QR) 버튼 -->
+          <button
+            type="button"
+            data-open-share
+            aria-label="Share setup via link or QR code"
+            class="min-h-10 rounded-xl border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-bold text-slate-200 hover:border-volt active:scale-95"
+          >
+            Share / QR
+          </button>
+
+          <!-- 스마트폰 홈 화면 설치 버튼 -->
+          <button
+            id="install-btn"
+            type="button"
+            hidden
+            class="min-h-10 rounded-xl bg-volt px-3 py-1.5 text-xs font-extrabold text-slate-950 active:scale-95"
+          >
+            Install
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="content" class="mx-auto max-w-2xl px-3 pb-32 pt-4 sm:px-4">
+      <!-- =========================================================
+           TAB 1: Incline (0–15%) & Pace Converter + VO2 / Calories
+           ========================================================= -->
+      <section data-panel="pace" aria-labelledby="pace-title">
+        <div class="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+          <div>
+            <h1 id="pace-title" class="text-xl font-extrabold sm:text-2xl">Incline &amp; Pace Converter</h1>
+            <p class="text-xs text-slate-400">
+              Treadmill Speed &amp; Incline (0–15%) ↔ Flat Ground Equivalent Pace (GAP) + Real-time VO₂ &amp; Calories
+            </p>
+          </div>
+        </div>
+
+        <!-- 대형 듀얼 콘솔: [현재 트레드밀 세팅] ↔ [평지 환산 속도·페이스(GAP)] -->
+        <div class="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <!-- 왼쪽: 트레드밀 벨트 속도/페이스 -->
+          <div class="rounded-2xl border border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 p-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Treadmill Belt</span>
+              <span id="big-incline-badge" class="rounded-full bg-slate-800 px-2.5 py-0.5 font-mono text-xs font-bold text-lime-300">1.0% Incline</span>
+            </div>
+            <div class="mt-2 flex items-baseline justify-between gap-2">
+              <div>
+                <p class="font-mono text-4xl font-black text-volt tabular-nums" aria-live="polite">
+                  <span id="big-speed">7.5</span>
+                  <span data-unit-speed-label class="text-sm font-bold text-slate-400">MPH</span>
+                </p>
+                <p id="big-speed-sub" class="font-mono text-xs text-slate-400 tabular-nums">12.1 km/h</p>
+              </div>
+              <div class="text-right">
+                <p class="font-mono text-4xl font-black text-slate-100 tabular-nums">
+                  <span id="big-pace">8:00</span>
+                  <span data-unit-pace-label class="text-sm font-bold text-slate-400">/mi</span>
+                </p>
+                <p id="big-pace-sub" class="font-mono text-xs text-slate-400 tabular-nums">4:58 /km</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 오른쪽: 경사도(0~15%)를 반영한 야외 평지 환산 속도 & 페이스 (GAP) -->
+          <div class="rounded-2xl border border-lime-400/40 bg-gradient-to-b from-lime-950/30 to-slate-950 p-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-lime-300">Flat Ground Equivalent (GAP)</span>
+              <span class="rounded-full bg-lime-400/15 px-2 py-0.5 text-[11px] font-bold text-lime-300">Speed + Incline</span>
+            </div>
+            <div class="mt-2 flex items-baseline justify-between gap-2">
+              <div>
+                <p class="font-mono text-4xl font-black text-white tabular-nums" aria-live="polite">
+                  <span id="gap-pace">8:00</span>
+                  <span data-unit-pace-label class="text-sm font-bold text-lime-300">/mi</span>
+                </p>
+                <p id="gap-pace-sub" class="font-mono text-xs text-slate-300 tabular-nums">4:58 /km</p>
+              </div>
+              <div class="text-right">
+                <p class="text-xs text-slate-400">Flat Outdoor Speed</p>
+                <p id="gap-speed" class="font-mono text-2xl font-extrabold text-volt tabular-nums">7.5 mph</p>
+              </div>
+            </div>
+            <p class="mt-2 border-t border-slate-800/80 pt-1.5 text-[11px] text-slate-400">
+              0% Zero-Wind Belt Equiv: <strong id="gap-zero-ref" class="font-mono text-slate-200">7.8 mph (7:39/mi)</strong>
+            </p>
+          </div>
+        </div>
+
+        <!-- 원터치 속도 프리셋 바 -->
+        <div class="mb-3 rounded-2xl bg-slate-900 p-3">
+          <div class="mb-1.5 flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300">Quick Speed Presets</span>
+            <span class="text-[11px] text-slate-400">Tap to set belt speed</span>
+          </div>
+          <div id="speed-presets" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- 대표님 핵심 요청: 트레드밀 기울기 각도(경사도) 0% ~ 15% 선택 컨트롤 -->
+        <div class="mb-3 rounded-2xl border border-slate-800 bg-slate-900 p-3">
+          <div class="mb-2 flex items-center justify-between">
+            <label for="in-incline" class="text-sm font-extrabold text-slate-200">
+              Treadmill Incline Grade (0% – 15%)
+            </label>
+            <span class="text-xs text-lime-300">1.0% = Outdoor Flat (Jones &amp; Doust)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              data-step="inc:-0.5"
+              aria-label="Decrease incline by 0.5 percent"
+              class="h-14 w-16 shrink-0 rounded-xl bg-slate-800 font-mono text-lg font-extrabold text-slate-100 active:bg-volt active:text-slate-950"
+            >
+              −0.5%
+            </button>
+            <div class="relative flex-1">
+              <input
+                id="in-incline"
+                type="number"
+                inputmode="decimal"
+                step="0.5"
+                min="0"
+                max="15"
+                class="h-14 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-2xl font-black text-volt tabular-nums focus:border-volt focus:outline-none"
+              />
+            </div>
+            <button
+              type="button"
+              data-step="inc:0.5"
+              aria-label="Increase incline by 0.5 percent"
+              class="h-14 w-16 shrink-0 rounded-xl bg-slate-800 font-mono text-lg font-extrabold text-slate-100 active:bg-volt active:text-slate-950"
+            >
+              +0.5%
+            </button>
+          </div>
+          <!-- 0% ~ 15% 원터치 경사 칩 버튼 -->
+          <div id="incline-chips" class="mt-2.5 flex flex-wrap gap-1.5" role="group" aria-label="Quick incline selection 0 to 15 percent"></div>
+        </div>
+
+        <!-- 4대 속도/페이스 양방향 입력 + 큼직한 +/- 원터치 버튼 -->
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <!-- MPH (기본 강조) -->
+          <div id="card-mph" class="rounded-2xl bg-slate-900 p-3">
+            <label for="in-mph" class="mb-1 flex items-center justify-between text-xs font-bold text-slate-300">
+              <span>Treadmill Speed (MPH)</span>
+              <span class="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-volt">US Default</span>
+            </label>
+            <div class="flex items-center gap-2">
+              <button type="button" data-step="mph:-0.1" aria-label="Decrease MPH by 0.1" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-2xl font-bold active:bg-volt active:text-slate-950">−</button>
+              <input id="in-mph" type="number" inputmode="decimal" step="0.1" min="1" max="15" class="h-14 w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-2xl font-bold tabular-nums focus:border-volt focus:outline-none" />
+              <button type="button" data-step="mph:0.1" aria-label="Increase MPH by 0.1" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-2xl font-bold active:bg-volt active:text-slate-950">+</button>
+            </div>
+          </div>
+
+          <!-- Pace per Mile -->
+          <div id="card-pace-mi" class="rounded-2xl bg-slate-900 p-3">
+            <label for="in-pace-mi" class="mb-1 block text-xs font-bold text-slate-300">Pace per Mile (min:sec /mi)</label>
+            <div class="flex items-center gap-2">
+              <button type="button" data-step="mi:5" aria-label="Slower pace per mile by 5 seconds" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-xs font-bold active:bg-volt active:text-slate-950">+5s</button>
+              <input id="in-pace-mi" type="text" inputmode="numeric" autocomplete="off" class="h-14 w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-2xl font-bold tabular-nums focus:border-volt focus:outline-none" />
+              <button type="button" data-step="mi:-5" aria-label="Faster pace per mile by 5 seconds" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-xs font-bold active:bg-volt active:text-slate-950">−5s</button>
+            </div>
+          </div>
+
+          <!-- km/h -->
+          <div id="card-kmh" class="rounded-2xl bg-slate-900 p-3">
+            <label for="in-kmh" class="mb-1 flex items-center justify-between text-xs font-bold text-slate-300">
+              <span>Treadmill Speed (km/h)</span>
+              <span class="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400">Metric</span>
+            </label>
+            <div class="flex items-center gap-2">
+              <button type="button" data-step="kmh:-0.1" aria-label="Decrease km/h by 0.1" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-2xl font-bold active:bg-volt active:text-slate-950">−</button>
+              <input id="in-kmh" type="number" inputmode="decimal" step="0.1" min="1.6" max="24" class="h-14 w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-2xl font-bold tabular-nums focus:border-volt focus:outline-none" />
+              <button type="button" data-step="kmh:0.1" aria-label="Increase km/h by 0.1" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-2xl font-bold active:bg-volt active:text-slate-950">+</button>
+            </div>
+          </div>
+
+          <!-- Pace per KM -->
+          <div id="card-pace-km" class="rounded-2xl bg-slate-900 p-3">
+            <label for="in-pace-km" class="mb-1 block text-xs font-bold text-slate-300">Pace per KM (min:sec /km)</label>
+            <div class="flex items-center gap-2">
+              <button type="button" data-step="km:5" aria-label="Slower pace per km by 5 seconds" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-xs font-bold active:bg-volt active:text-slate-950">+5s</button>
+              <input id="in-pace-km" type="text" inputmode="numeric" autocomplete="off" class="h-14 w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-2xl font-bold tabular-nums focus:border-volt focus:outline-none" />
+              <button type="button" data-step="km:-5" aria-label="Faster pace per km by 5 seconds" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-xs font-bold active:bg-volt active:text-slate-950">−5s</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 실시간 VO2 & 칼로리 대사 계산기 카드 -->
+        <div class="mt-4 rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 class="text-sm font-extrabold text-slate-100">Real-Time Metabolic VO₂ &amp; Calorie Burn</h2>
+              <p class="text-xs text-slate-400">ACSM Running Equation (Speed + 0–15% Grade)</p>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <label for="in-weight" class="text-xs font-semibold text-slate-400">Body Weight:</label>
+              <input
+                id="in-weight"
+                type="number"
+                inputmode="decimal"
+                min="60"
+                max="400"
+                class="h-10 w-20 rounded-lg border border-slate-700 bg-slate-950 text-center font-mono text-sm font-bold text-slate-100"
+              />
+              <span id="weight-unit-label" class="font-mono text-xs font-bold text-slate-400">lbs</span>
+            </div>
+          </div>
+
+          <dl class="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-2">
+            <div class="rounded-xl bg-slate-950 p-3">
+              <dt class="text-xs text-slate-400">Oxygen Cost (VO₂)</dt>
+              <dd class="mt-0.5 font-mono text-2xl font-black text-volt tabular-nums">
+                <span id="stat-vo2">36.7</span>
+                <span class="text-xs font-normal text-slate-400">ml/kg/min</span>
+              </dd>
+              <dd id="stat-mets" class="mt-0.5 font-mono text-xs text-slate-400">10.5 METs</dd>
+            </div>
+            <div class="rounded-xl bg-slate-950 p-3">
+              <dt class="text-xs text-slate-400">Estimated Energy Burn</dt>
+              <dd class="mt-0.5 font-mono text-2xl font-black text-lime-300 tabular-nums">
+                <span id="stat-kcal-hr">770</span>
+                <span class="text-xs font-normal text-slate-400">kcal / hr</span>
+              </dd>
+              <dd id="stat-kcal-min" class="mt-0.5 font-mono text-xs text-slate-400">12.8 kcal/min</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- 거리별 완주 시간 (벨트 속도 기준 & 평지 환산 GAP 기준) -->
+        <div class="mt-4 rounded-2xl bg-slate-900 p-4">
+          <h2 class="mb-2 text-sm font-extrabold">Projected Race Finish Times (Belt vs. Flat GAP)</h2>
+          <dl id="finish-list" class="grid grid-cols-1 gap-2 sm:grid-cols-2"></dl>
+        </div>
+
+        <!-- 0% ~ 15% 경사도별 평지 환산 페이스(GAP) & 동일 부하 벨트 속도 비교표 -->
+        <div class="mt-4 rounded-2xl bg-slate-900 p-4">
+          <h2 class="text-sm font-extrabold">
+            0% – 15% Incline Conversion Matrix
+          </h2>
+          <p class="mb-3 text-xs text-slate-400">
+            At your current belt setting (<strong id="incline-target" class="text-slate-200">7.5 mph</strong>), see the flat-ground equivalent speed &amp; GAP at each grade, or the belt speed needed to match that effort.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full overflow-hidden rounded-xl text-xs sm:text-sm">
+              <caption class="sr-only">Treadmill 0 to 15 percent incline flat ground equivalent speed and pace matrix</caption>
+              <thead class="bg-slate-800 text-[11px] uppercase text-slate-400">
+                <tr>
+                  <th scope="col" class="py-2 pl-3 text-left">Incline</th>
+                  <th scope="col" class="py-2 text-right">Flat Equiv Speed</th>
+                  <th scope="col" class="py-2 text-right">Flat GAP</th>
+                  <th scope="col" class="py-2 pr-3 text-right">Belt for Same Effort</th>
+                </tr>
+              </thead>
+              <tbody id="incline-body"></tbody>
+            </table>
+          </div>
+          <p id="incline-warn" hidden class="mt-2 rounded-lg bg-amber-500/10 p-2 text-xs text-amber-300">
+            Note: Below ~5.0 mph (8.0 km/h) biomechanics shift from running to walking/power-hiking; ACSM running equations are shown as a continuous reference.
+          </p>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           TAB 2: Treadmill Workouts & Elite Form Studio [신규 핵심 기능]
+           ========================================================= -->
+      <section data-panel="workouts" hidden aria-labelledby="wk-title">
+        <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h1 id="wk-title" class="text-xl font-extrabold sm:text-2xl">Treadmill Workouts &amp; Elite Form Studio</h1>
+            <p class="text-xs text-slate-400">
+              Auto-generate editable 30/45/60-min cue sheets &amp; match your speed to elite biomechanics.
+            </p>
+          </div>
+          <span id="wk-vdot-badge" class="rounded-xl bg-volt px-3 py-1 font-mono text-sm font-black text-slate-950">VDOT 45.0</span>
+        </div>
+
+        <!-- 1) 나의 기준 입력 (Easy Pace / 5K 기록 / 목표 마라톤 시간) + 총 운동 시간(30/45/60분) -->
+        <div class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <h2 class="mb-2 text-sm font-extrabold text-slate-200">Step 1 · Set Your Baseline &amp; Total Workout Time</h2>
+          <div class="grid grid-cols-3 gap-1.5" role="group" aria-label="Select baseline input type">
+            <button type="button" data-wk-base="easy" aria-pressed="true" class="min-h-11 rounded-xl border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs font-bold">Easy Pace</button>
+            <button type="button" data-wk-base="5k" aria-pressed="false" class="min-h-11 rounded-xl border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs font-bold">5K Time</button>
+            <button type="button" data-wk-base="marathon" aria-pressed="false" class="min-h-11 rounded-xl border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs font-bold">Goal Marathon</button>
+          </div>
+
+          <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label id="wk-base-label" for="wk-base-input" class="mb-1 block text-xs font-bold text-slate-300">Your Easy Pace (min/mi)</label>
+              <input
+                id="wk-base-input"
+                type="text"
+                inputmode="numeric"
+                value="9:00"
+                class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-3 text-center font-mono text-xl font-extrabold text-volt tabular-nums focus:border-volt focus:outline-none"
+              />
+            </div>
+            <div>
+              <span class="mb-1 block text-xs font-bold text-slate-300">Total Workout Duration</span>
+              <div class="grid grid-cols-3 gap-1.5" role="group" aria-label="Select workout duration in minutes">
+                <button type="button" data-wk-dur="30" aria-pressed="false" class="h-12 rounded-xl border border-slate-700 bg-slate-800 font-mono text-sm font-extrabold">30 min</button>
+                <button type="button" data-wk-dur="45" aria-pressed="true" class="h-12 rounded-xl border border-slate-700 bg-slate-800 font-mono text-sm font-extrabold">45 min</button>
+                <button type="button" data-wk-dur="60" aria-pressed="false" class="h-12 rounded-xl border border-slate-700 bg-slate-800 font-mono text-sm font-extrabold">60 min</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 산출된 VDOT 5대 훈련 존 요약 -->
+          <div id="wk-zones-bar" class="mt-3 grid grid-cols-5 gap-1.5"></div>
+        </div>
+
+        <!-- 2) 4대 훈련법 선택 버튼 -->
+        <div class="mt-4 rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <h2 class="mb-2 text-sm font-extrabold text-slate-200">Step 2 · Choose Your Workout Protocol</h2>
+          <div class="grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-label="Select treadmill workout type">
+            <button type="button" data-wk-type="interval" aria-pressed="true" class="min-h-14 rounded-xl border border-slate-700 bg-slate-800 p-2 text-left">
+              <div class="text-xs font-extrabold">① Interval</div>
+              <div class="text-[10px] opacity-80">VO₂max I-Pace &amp; Jog</div>
+            </button>
+            <button type="button" data-wk-type="cruise" aria-pressed="false" class="min-h-14 rounded-xl border border-slate-700 bg-slate-800 p-2 text-left">
+              <div class="text-xs font-extrabold">② Cruise Run</div>
+              <div class="text-[10px] opacity-80">Daniels T-Pace Threshold</div>
+            </button>
+            <button type="button" data-wk-type="buildup" aria-pressed="false" class="min-h-14 rounded-xl border border-slate-700 bg-slate-800 p-2 text-left">
+              <div class="text-xs font-extrabold">③ Build-up</div>
+              <div class="text-[10px] opacity-80">4-Stage Progression</div>
+            </button>
+            <button type="button" data-wk-type="recovery" aria-pressed="false" class="min-h-14 rounded-xl border border-slate-700 bg-slate-800 p-2 text-left">
+              <div class="text-xs font-extrabold">④ Recovery/MAF</div>
+              <div class="text-[10px] opacity-80">Low-HR Aerobic Base</div>
+            </button>
+          </div>
+
+          <!-- 큐시트 요약 & 콘솔 타이머 시작 버튼 -->
+          <div class="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-slate-950 px-3 py-2.5">
+            <div class="text-xs">
+              Total: <strong id="wk-summary-time" class="font-mono text-volt">45 min</strong> · Est. Distance:
+              <strong id="wk-summary-dist" class="font-mono text-lime-300">5.40 mi</strong>
+              <span class="ml-1 text-[11px] text-slate-400">(Use −/+ in table to fine-tune any stage)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                id="wk-reset-btn"
+                type="button"
+                class="min-h-10 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-300 hover:border-volt"
+              >
+                Reset
+              </button>
+              <button
+                id="wk-start-console-btn"
+                type="button"
+                class="min-h-10 rounded-xl bg-volt px-3.5 py-1.5 text-xs font-extrabold text-slate-950 active:scale-95"
+              >
+                ▶ Start Console Timer
+              </button>
+            </div>
+          </div>
+
+          <!-- 인터랙티브 트레드밀 콘솔 워크아웃 타이머 (시작 버튼 클릭 시 표시) -->
+          <div id="console-player" hidden class="mt-3 rounded-2xl border-2 border-volt bg-slate-950 p-4">
+            <div class="flex items-center justify-between">
+              <span id="con-stage-name" class="text-xs font-extrabold uppercase tracking-wider text-volt">Stage 1</span>
+              <span class="rounded-full bg-lime-400/15 px-2 py-0.5 text-[10px] font-bold text-lime-300">Screen Wake-Lock Active</span>
+            </div>
+            <div class="my-3 grid grid-cols-3 items-center gap-2 text-center">
+              <div class="rounded-xl bg-slate-900 p-2.5">
+                <div class="text-[10px] uppercase text-slate-400">Time Left</div>
+                <div id="con-timer" class="font-mono text-3xl font-black text-white tabular-nums">10:00</div>
+              </div>
+              <div class="rounded-xl bg-slate-900 p-2.5">
+                <div class="text-[10px] uppercase text-slate-400">Set Speed</div>
+                <div id="con-speed" class="font-mono text-2xl font-black text-volt tabular-nums">7.0 MPH</div>
+              </div>
+              <div class="rounded-xl bg-slate-900 p-2.5">
+                <div class="text-[10px] uppercase text-slate-400">Set Incline</div>
+                <div id="con-incline" class="font-mono text-2xl font-black text-lime-300 tabular-nums">1.0%</div>
+              </div>
+            </div>
+            <p id="con-cue" class="rounded-xl bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-200"></p>
+            <div class="mt-2.5 flex items-center justify-between gap-2">
+              <span id="con-next" class="text-xs text-slate-400">Next stage...</span>
+              <div class="flex gap-2">
+                <button id="con-toggle-btn" type="button" class="min-h-11 rounded-xl bg-volt px-4 text-xs font-extrabold text-slate-950">⏸ Pause</button>
+                <button id="con-next-btn" type="button" class="min-h-11 rounded-xl bg-slate-800 px-3 text-xs font-bold text-slate-200">Skip ⏭</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 단계별 큐시트(시간표) 테이블 -->
+          <div class="mt-3 overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <caption class="sr-only">Editable treadmill workout cue sheet with time, speed, incline, and heart rate zone</caption>
+              <thead class="bg-slate-800 text-[11px] uppercase text-slate-400">
+                <tr>
+                  <th scope="col" class="py-2 pl-3">Stage &amp; Coaching Cue</th>
+                  <th scope="col" class="py-2 text-center">Min</th>
+                  <th scope="col" class="py-2 text-center">Speed (MPH &amp; km/h)</th>
+                  <th scope="col" class="py-2 text-center">Incline</th>
+                  <th scope="col" class="py-2 pr-3 text-right">Target HR Zone</th>
+                </tr>
+              </thead>
+              <tbody id="wk-cue-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3) Elite Runner Form by Speed 매칭 카드 -->
+        <div class="mt-4 rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 class="text-base font-extrabold text-slate-100">Elite Runner Form by Speed Studio</h2>
+              <p class="text-xs text-slate-400">
+                Matched to your current treadmill setting (<strong id="elite-current-speed" class="text-volt">7.5 MPH @ 1.0%</strong>):
+                <strong id="elite-matched-name" class="text-lime-300">Eliud Kipchoge</strong>
+              </p>
+            </div>
+          </div>
+          <div id="elite-cards-grid" class="grid grid-cols-1 gap-3"></div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           TAB 3: Weather (Temp / Dew Point / Wind) & MAF 180 Adjuster
+           ========================================================= -->
+      <section data-panel="weather" hidden aria-labelledby="weather-title">
+        <h1 id="weather-title" class="mb-1 text-xl font-extrabold sm:text-2xl">Weather, Wind &amp; MAF 180 Adjuster</h1>
+        <p class="mb-4 text-xs text-slate-400">
+          Calculate heat, humidity (dew point), and headwind/tailwind pace adjustments plus your Maffetone MAF 180 heart-rate ceiling.
+        </p>
+
+        <!-- 1) 기온 + 이슬점(또는 상대습도 %) + 풍속 페이스 보정기 -->
+        <div class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h2 class="text-sm font-extrabold">Heat, Dew Point &amp; Wind Pace Adjuster</h2>
+            <div class="inline-flex rounded-xl bg-slate-800 p-1" role="group" aria-label="Temperature unit">
+              <button type="button" data-temp-unit="F" aria-pressed="true" class="min-h-10 min-w-12 rounded-lg px-3 text-xs font-extrabold">°F</button>
+              <button type="button" data-temp-unit="C" aria-pressed="false" class="min-h-10 min-w-12 rounded-lg px-3 text-xs font-extrabold">°C</button>
+            </div>
+          </div>
+
+          <!-- 습도 입력 모드 선택: 이슬점 vs 상대습도(%) -->
+          <div class="mt-2 inline-flex rounded-xl bg-slate-800 p-1" role="group" aria-label="Humidity input mode">
+            <button type="button" data-humid-mode="dew" aria-pressed="true" class="min-h-9 rounded-lg px-3 text-xs font-bold">Enter Dew Point</button>
+            <button type="button" data-humid-mode="rh" aria-pressed="false" class="min-h-9 rounded-lg px-3 text-xs font-bold">Enter Relative Humidity (%)</button>
+          </div>
+
+          <div class="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+            <div>
+              <label for="in-temp" class="mb-1 block text-xs font-bold text-slate-300">Temperature (<span class="temp-unit-label">°F</span>)</label>
+              <input id="in-temp" type="number" inputmode="decimal" value="78" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-lg font-bold" />
+            </div>
+
+            <div id="dew-input-wrap">
+              <label for="in-dew" class="mb-1 block text-xs font-bold text-slate-300">Dew Point (<span class="temp-unit-label">°F</span>)</label>
+              <input id="in-dew" type="number" inputmode="decimal" value="65" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-lg font-bold" />
+            </div>
+
+            <div id="rh-input-wrap" hidden>
+              <label for="in-rh" class="mb-1 block text-xs font-bold text-slate-300">Humidity (%)</label>
+              <input id="in-rh" type="number" inputmode="decimal" min="5" max="100" value="65" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-lg font-bold" />
+            </div>
+
+            <div>
+              <label for="in-wind" class="mb-1 block text-xs font-bold text-slate-300">Wind (<span id="wind-unit-label">MPH</span>)</label>
+              <input id="in-wind" type="number" inputmode="decimal" min="0" max="50" value="10" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-lg font-bold" />
+            </div>
+
+            <div>
+              <label for="wind-dir" class="mb-1 block text-xs font-bold text-slate-300">Wind Direction</label>
+              <select id="wind-dir" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-2 text-xs font-bold">
+                <option value="head">Headwind (Against)</option>
+                <option value="tail">Tailwind (Behind)</option>
+                <option value="cross">Crosswind (Side)</option>
+              </select>
+            </div>
+          </div>
+
+          <p id="dew-error" hidden role="alert" class="mt-2 rounded-lg bg-red-500/15 p-2 text-xs text-red-300">
+            Dew point cannot exceed air temperature. Please lower the dew point or switch to Relative Humidity (%).
+          </p>
+
+          <dl id="dew-out" class="mt-3 grid grid-cols-2 gap-2 text-center sm:grid-cols-4">
+            <div class="rounded-xl bg-slate-950 p-2.5">
+              <dt class="text-[11px] text-slate-400">Heat Index Sum</dt>
+              <dd id="dew-sum" class="font-mono text-base font-extrabold text-slate-100">143</dd>
+            </div>
+            <div class="rounded-xl bg-slate-950 p-2.5">
+              <dt class="text-[11px] text-slate-400">Heat Slowdown</dt>
+              <dd id="dew-pct" class="font-mono text-base font-extrabold text-amber-300">3–4.5%</dd>
+            </div>
+            <div class="rounded-xl bg-slate-950 p-2.5">
+              <dt class="text-[11px] text-slate-400">Wind Effect</dt>
+              <dd id="wind-pct" class="font-mono text-base font-extrabold text-sky-300">+1.8%</dd>
+            </div>
+            <div class="rounded-xl bg-slate-950 p-2.5">
+              <dt class="text-[11px] text-slate-400">Thermal Status</dt>
+              <dd id="dew-note" class="text-xs font-bold text-slate-200">Hard — hydrate</dd>
+            </div>
+            <div class="col-span-2 rounded-xl border border-volt/40 bg-slate-950 p-3 sm:col-span-4">
+              <dt class="text-xs text-slate-400">Weather-Adjusted Outdoor Target Pace (Equal Effort)</dt>
+              <dd id="dew-pace" class="mt-0.5 font-mono text-3xl font-black text-volt tabular-nums">8:26/mi</dd>
+              <dd id="dew-base-ref" class="mt-0.5 font-mono text-xs text-slate-400">Baseline: 8:00/mi (7.5 mph)</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- 2) MAF 180 심박수 계산기 -->
+        <div class="mt-4 rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-extrabold">MAF 180 Aerobic Heart Rate Calculator</h2>
+            <span class="rounded-full bg-lime-400/15 px-2.5 py-0.5 text-xs font-bold text-lime-300">Dr. Phil Maffetone</span>
+          </div>
+          <p class="mt-1 text-xs text-slate-400">
+            Build fat-burning mitochondrial density and prevent overtraining syndrome by capping aerobic runs at your MAF ceiling.
+          </p>
+
+          <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label for="in-maf-age" class="mb-1 block text-xs font-bold text-slate-300">Your Age (Years)</label>
+              <input id="in-maf-age" type="number" inputmode="numeric" min="14" max="95" value="35" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-xl font-bold" />
+            </div>
+            <div>
+              <label for="maf-mod" class="mb-1 block text-xs font-bold text-slate-300">Health &amp; Training Modifier</label>
+              <select id="maf-mod" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-2 text-xs font-bold">
+                <option value="-10">−10 · Recovering from major illness, surgery, or on regular medication</option>
+                <option value="-5">−5 · Injured, &gt;2 colds/yr, allergies/asthma, or beginner/returning</option>
+                <option value="0" selected>0 · Consistently training 4x/wk for 1–2 years without injury</option>
+                <option value="5">+5 · Competing &gt;2 years injury-free with improving race results</option>
+              </select>
+            </div>
+          </div>
+
+          <dl class="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+            <div class="rounded-xl bg-slate-950 p-3 text-center">
+              <dt class="text-xs text-slate-400">MAF Ceiling HR</dt>
+              <dd id="maf-target-hr" class="mt-0.5 font-mono text-2xl font-black text-volt">145 bpm</dd>
+            </div>
+            <div class="rounded-xl bg-slate-950 p-3 text-center">
+              <dt class="text-xs text-slate-400">MAF Aerobic Zone</dt>
+              <dd id="maf-zone-range" class="mt-0.5 font-mono text-lg font-extrabold text-lime-300">135 – 145 bpm</dd>
+            </div>
+            <div class="rounded-xl bg-slate-950 p-3 text-center">
+              <dt class="text-xs text-slate-400">Suggested Treadmill Start</dt>
+              <dd id="maf-rec-speed" class="mt-0.5 font-mono text-sm font-bold text-slate-200">6.2 MPH @ 1.0%</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           TAB 4: Marathon Pace Band (5K / 10K / Half / Full)
+           ========================================================= -->
+      <section data-panel="paceband" hidden aria-labelledby="pb-title">
+        <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h1 id="pb-title" class="text-xl font-extrabold sm:text-2xl">Marathon &amp; Race Pace Band</h1>
+            <p class="text-xs text-slate-400">
+              Generate mile or kilometer splits for 5K, 10K, Half, or Full Marathon—save to phone, print wristband, or share QR.
+            </p>
+          </div>
+        </div>
+
+        <div class="no-print rounded-2xl border border-slate-800 bg-slate-900 p-4">
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div>
+              <label for="pb-race" class="mb-1 block text-xs font-bold text-slate-300">Race Distance</label>
+              <select id="pb-race" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-3 text-sm font-bold">
+                <option value="5k">5K (3.11 mi)</option>
+                <option value="10k">10K (6.21 mi)</option>
+                <option value="half">Half Marathon (13.11 mi)</option>
+                <option value="full" selected>Full Marathon (26.22 mi)</option>
+              </select>
+            </div>
+            <div>
+              <label for="pb-time" class="mb-1 block text-xs font-bold text-slate-300">Goal Finish Time (h:mm:ss)</label>
+              <input
+                id="pb-time"
+                type="text"
+                inputmode="numeric"
+                value="3:30:00"
+                class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-3 text-center font-mono text-xl font-extrabold text-volt tabular-nums"
+              />
+            </div>
+            <div>
+              <label for="pb-strategy" class="mb-1 block text-xs font-bold text-slate-300">Pacing Strategy</label>
+              <select id="pb-strategy" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-3 text-xs font-bold">
+                <option value="even">Even Splits (Metronomic)</option>
+                <option value="negative">Negative Split (Faster 2nd Half)</option>
+                <option value="conservative">Conservative Start (Bank Cushion)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-slate-950 px-3 py-2.5">
+            <div class="text-xs">
+              Required Avg Pace: <strong id="pb-summary-pace" class="font-mono text-volt">8:01 /mi</strong> · Avg Treadmill:
+              <strong id="pb-summary-speed" class="font-mono text-lime-300">7.5 MPH</strong>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              <button id="pb-download-btn" type="button" class="min-h-10 rounded-xl bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-200 hover:border-volt">
+                ⬇ Save (.txt)
+              </button>
+              <button id="pb-print-btn" type="button" class="min-h-10 rounded-xl bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-200 hover:border-volt">
+                🖨 Print Band
+              </button>
+              <button type="button" data-open-share class="min-h-10 rounded-xl bg-volt px-3 py-1.5 text-xs font-extrabold text-slate-950">
+                Share / QR
+              </button>
+            </div>
+          </div>
+          <p id="pb-error" hidden role="alert" class="mt-2 rounded-lg bg-red-500/15 p-2 text-xs text-red-300">
+            Please enter a realistic finish time for this race distance (e.g. 3:30:00 or 22:30).
+          </p>
+        </div>
+
+        <div id="pb-table-wrap" class="mt-3 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900">
+          <table class="w-full text-xs sm:text-sm">
+            <caption class="sr-only">Race pace band split table</caption>
+            <thead class="bg-slate-800 text-[11px] uppercase text-slate-400">
+              <tr>
+                <th scope="col" class="py-2.5 pl-3 text-left">Split</th>
+                <th scope="col" class="py-2.5 text-right">Split Pace</th>
+                <th scope="col" class="py-2.5 text-right">Elapsed Time</th>
+                <th scope="col" class="py-2.5 pr-3 text-right">Treadmill Speed</th>
+              </tr>
+            </thead>
+            <tbody id="pb-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           심층 러닝 과학·바이오메카닉스·워크아웃 가이드 (AdSense 1,500+ 단어 필수 콘텐츠)
+           ========================================================= -->
+      <article id="guide-article" class="mt-10 space-y-6 rounded-3xl border border-slate-800 bg-slate-900/70 p-5 text-sm leading-relaxed text-slate-300 sm:p-7">
+        <header class="border-b border-slate-800 pb-4">
+          <p class="text-xs font-bold uppercase tracking-widest text-volt">RunPaceStudio Sports Science Library</p>
+          <h2 class="mt-1 text-2xl font-extrabold text-white">
+            The Complete Guide to Treadmill Incline Physics, VDOT Workouts, Elite Biomechanics &amp; Environmental Pacing
+          </h2>
+          <p class="mt-2 text-xs text-slate-400">
+            Reviewed by the RunPaceStudio Sports Science &amp; Coaching Team · Peer-Reviewed References: Jones &amp; Doust (1996), ACSM Metabolic Equations, Daniels &amp; Gilbert (1979), Minetti et al. (2002), Pugh (1971), Davies (1980), Weyand et al. (2000).
+          </p>
+        </header>
+
+        <!-- Section 1: 0–15% Treadmill Incline Science & GAP -->
+        <section class="space-y-3">
+          <h3 class="text-lg font-extrabold text-white">
+            1. Treadmill Incline Physics (0% to 15% Grade) and Grade Adjusted Pace (GAP)
+          </h3>
+          <p>
+            Every runner who transitions between outdoor roads and a motorized treadmill notices an immediate discrepancy: running at 7.5 MPH (an 8:00/mile pace) on a 0% flat treadmill feels noticeably easier than holding an 8:00/mile GPS pace on a flat outdoor road. The primary physical reason is aerodynamics. Outdoors, your body must continuously displace a column of air in front of your torso, generating aerodynamic drag proportional to the square of your velocity. On a stationary treadmill belt, your center of mass has zero horizontal velocity relative to the room air, eliminating air resistance.
+          </p>
+          <p>
+            In their foundational 1996 study published in the <em>Journal of Sports Sciences</em>, sports physiologists Andrew M. Jones and Jonathan H. Doust tested trained distance runners across six velocities (ranging from 2.92 m/s to 5.0 m/s, or roughly 9:11/mile down to 5:22/mile) on an outdoor road versus a treadmill set at 0%, 1%, 2%, and 3% grades. Their gas-exchange data demonstrated that a <strong>1.0% treadmill incline</strong> most accurately reproduces the oxygen uptake ($\text{VO}_2$), heart rate, and blood lactate accumulation of flat outdoor running across standard training speeds.
+          </p>
+          <p>
+            When you increase the treadmill incline beyond 1%—all the way up to <strong>15% grade</strong>—you introduce a substantial vertical work component against gravity. According to the <strong>American College of Sports Medicine (ACSM)</strong> metabolic equation for running, total oxygen consumption ($\text{VO}_2$ in $\text{ml}\cdot\text{kg}^{-1}\cdot\text{min}^{-1}$) is modeled as:
+          </p>
+          <p class="rounded-xl bg-slate-950 p-3 font-mono text-xs text-volt">
+            VO₂ (ml/kg/min) = (0.2 × Speed_m/min) + (0.9 × Speed_m/min × Fractional_Grade) + 3.5
+          </p>
+          <p>
+            In this equation, $0.2 \times v$ represents the horizontal oxygen cost of moving one kilogram of body mass one meter forward, $0.9 \times v \times G$ represents the vertical oxygen cost of lifting your center of mass up the incline $G$, and $3.5\text{ ml}\cdot\text{kg}^{-1}\cdot\text{min}^{-1}$ represents resting metabolic rate (1 MET). Notice the ratio between the vertical coefficient ($0.9$) and the horizontal coefficient ($0.2$): each <strong>1% increase in treadmill grade</strong> adds approximately <strong>4.5% to the net running oxygen cost</strong> at a given belt speed.
+          </p>
+          <p>
+            For steep mountain grades up to 15% and beyond, Alberto Minetti and colleagues (2002, <em>Journal of Applied Physiology</em>) measured elite mountain runners on high-angle treadmills and established that while mechanical efficiency shifts slightly as muscle-tendon units transition from spring-like elastic storage to concentric muscular lifting, uphill running provides a remarkable training advantage: <strong>maximal cardiovascular and glute/calf recruitment with up to 35% less eccentric impact shock</strong> on the tibia and knee joint compared to fast flat running. RunPaceStudio uses this metabolic equivalence to translate any combination of treadmill speed and 0–15% incline into your exact outdoor <strong>Grade Adjusted Pace (GAP)</strong>.
+          </p>
+        </section>
+
+        <!-- Section 2: The 4 Core Treadmill Workout Protocols -->
+        <section class="space-y-3">
+          <h3 class="text-lg font-extrabold text-white">
+            2. The 4 Pillar Treadmill Workouts: Interval, Cruise, Build-Up, and Recovery/MAF
+          </h3>
+          <p>
+            A motorized treadmill is the ultimate precision physiology laboratory. Unlike outdoor roads where traffic lights, rolling hills, and wind gusts disrupt your target intensity, a treadmill locks you into an exact metabolic demand. Our workout studio structures training around four scientifically validated protocols derived from Dr. Jack Daniels' <em>VDOT Running Formula</em>, modern Norwegian threshold methodology, and Dr. Phil Maffetone's aerobic base system:
+          </p>
+          <ul class="list-disc space-y-2 pl-5">
+            <li>
+              <strong class="text-lime-300">① Interval Training ($\text{VO}_2\text{max}$ Development · 95–100% $\text{VO}_2\text{max}$):</strong>
+              Designed to expand cardiac stroke volume and maximal oxygen transport. Because it takes roughly 90 to 120 seconds at I-Pace for your cardiovascular system to ramp up to 95%+ $\text{VO}_2\text{max}$, classic 3-minute work bouts with 2-minute active jogging recoveries accumulate optimal time at peak oxygen uptake without excessive acidosis. Setting the belt at a 1.0% incline protects the hamstrings from overstriding at high belt speeds.
+            </li>
+            <li>
+              <strong class="text-lime-300">② Cruise Running (Lactate Threshold T-Pace · 83–88% $\text{VO}_2\text{max}$ / 88–92% $\text{HR}_{\text{max}}$):</strong>
+              Popularized by Dr. Jack Daniels and refined by Norwegian middle- and long-distance champions, Cruise Intervals split a 20- to 40-minute threshold session into 6- to 8-minute repeats separated by brief 60-second float recoveries. Blood lactate stays controlled around 2.5 to 3.8 mmol/L ("comfortably hard"), training slow-twitch and intermediate muscle fibers to clear lactate via MCT1 transporters faster than it is produced.
+            </li>
+            <li>
+              <strong class="text-lime-300">③ Build-Up Progression Run (Aerobic-to-Threshold Negative Split):</strong>
+              Structured across four ascending gears—Easy Warm-Up, Steady Aerobic, Marathon Pace (M-Pace), and a closing Threshold (T-Pace) block. Progression runs teach the central nervous system to recruit fresh motor units when glycogen stores begin to dip, closely simulating the physiological demands of miles 18 to 26.2 in a marathon.
+            </li>
+            <li>
+              <strong class="text-lime-300">④ Recovery &amp; MAF Aerobic Run (60–74% $\text{VO}_2\text{max}$ / $\le 180 - \text{Age}$):</strong>
+              Eighty percent of an endurance runner's weekly mileage should occur in Zone 1 and Zone 2. Low-intensity treadmill sessions stimulate capillary angiogenesis, boost mitochondrial enzyme density, and promote parasympathetic recovery without triggering elevated cortisol or mechanical micro-trauma.
+            </li>
+          </ul>
+        </section>
+
+        <!-- Section 3: Elite Runner Biomechanics by Speed -->
+        <section class="space-y-3">
+          <h3 class="text-lg font-extrabold text-white">
+            3. Speed-Specific Running Biomechanics: Learning from Kipchoge, Ingebrigtsen, Bekele &amp; Dauwalter
+          </h3>
+          <p>
+            Biomechanical research by Peter Weyand et al. (2000, <em>Journal of Applied Physiology</em>) and Tim Dorn et al. (2012) revealed that human running speed is governed by two phase-shifted mechanisms. Up to approximately 7.0 m/s (15.6 MPH), runners increase speed primarily by applying greater vertical ground reaction forces through the ankle plantarflexors (soleus and gastrocnemius), which lengthens stride length. Above that speed, hip flexors and extensors dominate by rapidly accelerating stride frequency (cadence). Meanwhile, Bryan Heiderscheit et al. (2011) proved that increasing a recreational runner's self-selected cadence by just 5% to 10% significantly reduces braking impulse, center-of-mass vertical excursion, and patellofemoral joint load.
+          </p>
+          <p>
+            In our <strong>Elite Form Studio</strong>, we pair your treadmill belt speed and incline with four iconic distance runners whose mechanics exemplify efficiency in that specific regime:
+          </p>
+          <ul class="list-disc space-y-2 pl-5">
+            <li>
+              <strong class="text-white">Courtney Dauwalter (Ultra, Recovery &amp; Steep Incline Zone · 4.5–7.4 MPH or Grade $\ge 6\%$):</strong>
+              When running easy recovery miles or climbing 6% to 15% treadmill grades, long bounding strides cause premature quadriceps fatigue. Dauwalter demonstrates an ultra-relaxed upper body, low arm carriage, and short, high-frequency steps (168–176 spm on climbs) that keep the foot landing directly beneath the hips.
+            </li>
+            <li>
+              <strong class="text-white">Eliud Kipchoge (Marathon &amp; Build-Up Rhythm · 7.5–9.2 MPH):</strong>
+              Kipchoge's 1:59:40 marathon mechanics represent the gold standard of sub-maximal running economy. He maintains a rock-steady 180–185 spm cadence, a 3° to 5° forward lean originating from the ankles (never bending at the waist), and a quiet upper torso where the hands sweep lightly beside the lower ribs without crossing the body's midline.
+            </li>
+            <li>
+              <strong class="text-white">Jakob Ingebrigtsen (Cruise Threshold Zone · 9.3–10.8 MPH):</strong>
+              At threshold speeds, leg-spring stiffness is paramount. Ingebrigtsen's form features a neutral pelvis, minimal ground contact time (&lt;180 ms), and elastic ankle recoil that recycles kinetic energy through the Achilles tendon on every stride.
+            </li>
+            <li>
+              <strong class="text-white">Kenenisa Bekele ($\text{VO}_2\text{max}$ Interval &amp; Track Speed · 10.9+ MPH):</strong>
+              High-velocity intervals require active triple extension of the hip, knee, and ankle followed by high heel recovery close to the glutes. Folding the swing leg tightly reduces its moment of inertia, allowing the knee to punch forward rapidly at 190–200+ spm.
+            </li>
+          </ul>
+        </section>
+
+        <!-- Section 4: Weather, Dew Point, Wind & MAF 180 Science -->
+        <section class="space-y-3">
+          <h3 class="text-lg font-extrabold text-white">
+            4. Thermoregulation, Dew Point, Wind Resistance &amp; The MAF 180 Method
+          </h3>
+          <p>
+            Relative humidity alone can be misleading: 80% humidity at 45°F feels crisp and fast, whereas 80% humidity at 82°F is oppressive. <strong>Dew point</strong>—the absolute temperature at which water vapor saturates the air—is the true determinant of evaporative cooling efficiency. When the sum of ambient temperature (°F) and dew point (°F) rises above 130, sweat cannot evaporate efficiently from the skin. As documented by Matthew Ely et al. (2007, <em>Medicine &amp; Science in Sports &amp; Exercise</em>), up to 15–20% of cardiac output is shunted to cutaneous blood vessels for cooling, forcing your pace to drop by 2% to 8% at the same heart rate and perceived exertion.
+          </p>
+          <p>
+            Wind adds a second environmental variable. Classic wind-tunnel studies by L.G.C.E. Pugh (1971) and C.T.M. Davies (1980) established that aerodynamic drag scales with the square of relative wind speed $(v_{\text{runner}} \pm v_{\text{wind}})^2$. Crucially, a headwind slows a runner down roughly twice as much as an equal tailwind speeds them up on an out-and-back course. When outdoor heat, dew point, or gale-force winds reach counterproductive levels, our calculator gives you both your adjusted outdoor target pace and the exact indoor treadmill setting to preserve the physiological stimulus of your workout.
+          </p>
+          <p>
+            To complement environmental adjustments, Dr. Phil Maffetone's <strong>MAF 180 Formula</strong> provides an objective internal governor. By subtracting your chronological age from 180 and adjusting for injury and training history (−10 for major illness or medication, −5 for recurrent injury or seasonal colds, 0 for consistent injury-free training over 1–2 years, and +5 for 2+ years of competitive progression), you establish a strict aerobic heart-rate ceiling. Over 12 to 16 weeks of MAF base training on a 1.0% treadmill grade, runners consistently observe an "aerobic pace shift"—running 30 to 45 seconds per mile faster at the exact same heart rate as slow-twitch mitochondrial density and fat-oxidation rates expand.
+          </p>
+        </section>
+
+        <!-- Section 4B: Marathon Pacing Strategies & Steep Grade (6–15%) Mechanics -->
+        <section class="space-y-3">
+          <h3 class="text-lg font-extrabold text-white">
+            5. Marathon Pacing Science (Even vs. Negative Splits) &amp; Steep Incline (6%–15%) Protocol
+          </h3>
+          <p>
+            Analysis of every world-record marathon over the past two decades—including Eliud Kipchoge's Berlin performances—confirms that <strong>metronomic even splitting or slight negative splitting</strong> is the most metabolically economical way to cover 26.2 miles (42.195 km). Starting just 3% faster than your true lactate-threshold-derived Marathon Pace (M-Pace) during the first 5K accelerates muscle glycogen depletion by 15% to 25% per mile, flooding the bloodstream with hydrogen ions long before the halfway mark. Our <strong>Marathon Pace Band</strong> generator lets you model three distinct race-day execution plans in either miles or kilometers:
+          </p>
+          <ul class="list-disc space-y-2 pl-5">
+            <li>
+              <strong class="text-lime-300">Even Splits (Metronomic Strategy):</strong>
+              Maintains identical speed across every mile or kilometer from start to finish, minimizing surges that spike carbohydrate combustion. Ideal for flat courses like Berlin, Chicago, or Valencia—and for long treadmill marathon-simulator sessions.
+            </li>
+            <li>
+              <strong class="text-lime-300">Negative Split Strategy (Faster Second Half):</strong>
+              Begins roughly 1.5% to 1.8% slower than goal pace over the opening miles while core body temperature and muscle blood flow stabilize, then progressively ratchets down the pace over the final 10K as fuel weight decreases.
+            </li>
+            <li>
+              <strong class="text-lime-300">Conservative Start Cushion:</strong>
+              Protects runners against crowded corral starts and early adrenaline spikes by banking a controlled 2% effort cushion over the first 20% of the race before locking into steady cruise speed.
+            </li>
+          </ul>
+          <p>
+            Finally, when using the <strong>0% to 15% Incline Converter</strong> for hill-climb conditioning, mountain-ultra preparation, or high-incline low-impact workouts (such as 8% to 15% uphill blocks), pay close attention to ankle dorsiflexion and Achilles tendon load. Between <strong>1% and 5% grade</strong>, keep your normal running stride with a slight forward lean from the ankles. Between <strong>6% and 10% grade</strong>, intentionally shorten your stride length by 10–15% while maintaining a quick 170+ spm rhythm so your foot lands directly beneath your center of mass. Between <strong>11% and 15% grade</strong>, metabolic demand rises steeply (exceeding 14 to 18 METs even at moderate belt speeds), making short uphill intervals or controlled power-hiking one of the safest ways to build VO₂max and posterior-chain strength without high eccentric landing forces.
+          </p>
+        </section>
+
+        <!-- Section 5: Curated Runner Gear Slots (Amazon Associates Compliant) -->
+        <section class="space-y-3 border-t border-slate-800 pt-5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 class="text-lg font-extrabold text-white">6. Recommended Treadmill &amp; Marathon Training Gear</h3>
+            <span class="rounded bg-slate-800 px-2 py-0.5 text-[11px] text-slate-400">Affiliate Disclosure</span>
+          </div>
+          <p class="text-xs text-slate-400">
+            As an Amazon Associate, RunPaceStudio may earn a small commission from qualifying purchases at no additional cost to you. All external gear links include strict security and sponsorship attributes.
+          </p>
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div class="rounded-2xl border border-slate-800 bg-slate-950 p-3.5">
+              <div class="text-xs font-extrabold text-volt">Chest-Strap Heart Rate Monitor</div>
+              <p class="mt-1 text-xs text-slate-400">
+                Essential for accurate MAF 180 and Cruise Threshold zones without optical wrist cadence lock.
+              </p>
+              <a
+                href="https://www.amazon.com/s?k=running+chest+strap+heart+rate+monitor"
+                target="_blank"
+                rel="sponsored noopener noreferrer"
+                class="mt-2.5 inline-block rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-100 hover:bg-volt hover:text-slate-950"
+              >
+                Check Price on Amazon →
+              </a>
+            </div>
+            <div class="rounded-2xl border border-slate-800 bg-slate-950 p-3.5">
+              <div class="text-xs font-extrabold text-volt">High-Velocity Gym Cooling Fan</div>
+              <p class="mt-1 text-xs text-slate-400">
+                Replicates outdoor convective airflow on a stationary treadmill to prevent cardiac drift.
+              </p>
+              <a
+                href="https://www.amazon.com/s?k=high+velocity+blower+fan+treadmill"
+                target="_blank"
+                rel="sponsored noopener noreferrer"
+                class="mt-2.5 inline-block rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-100 hover:bg-volt hover:text-slate-950"
+              >
+                Check Price on Amazon →
+              </a>
+            </div>
+            <div class="rounded-2xl border border-slate-800 bg-slate-950 p-3.5">
+              <div class="text-xs font-extrabold text-volt">Precision Foot Pod Sensor</div>
+              <p class="mt-1 text-xs text-slate-400">
+                Calibrates true foot-speed and cadence when gym treadmill belts drift over time.
+              </p>
+              <a
+                href="https://www.amazon.com/s?k=running+foot+pod+cadence+sensor"
+                target="_blank"
+                rel="sponsored noopener noreferrer"
+                class="mt-2.5 inline-block rounded-lg bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-100 hover:bg-volt hover:text-slate-950"
+              >
+                Check Price on Amazon →
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 6: Frequently Asked Questions (Visible FAQ matching JSON-LD) -->
+        <section class="space-y-3 border-t border-slate-800 pt-5">
+          <h3 class="text-lg font-extrabold text-white">7. Frequently Asked Questions (FAQ)</h3>
+          <details class="rounded-xl bg-slate-950 p-3.5">
+            <summary class="cursor-pointer font-bold text-slate-100">
+              Why does a 1% treadmill incline equal flat outdoor running?
+            </summary>
+            <p class="mt-2 text-xs text-slate-300">
+              In a landmark 1996 study published in the <em>Journal of Sports Sciences</em>, Andrew Jones and Jonathan Doust measured oxygen uptake ($\text{VO}_2$) in runners outdoors versus on a motorized treadmill at grades from 0% to 3%. Because you do not move through still air on a treadmill, you save the metabolic cost of overcoming wind resistance. Setting a 1% incline adds just enough gravitational work to match outdoor flat-ground oxygen cost at paces between 6:00/mi and 9:15/mi.
+            </p>
+          </details>
+          <details class="rounded-xl bg-slate-950 p-3.5">
+            <summary class="cursor-pointer font-bold text-slate-100">
+              How do you convert treadmill speed and 0–15% incline into flat ground pace (GAP)?
+            </summary>
+            <p class="mt-2 text-xs text-slate-300">
+              Using the American College of Sports Medicine (ACSM) running metabolic equation, net running oxygen cost is proportional to speed multiplied by $(0.2 + 0.9 \times \text{fractional grade})$. By comparing that vertical plus horizontal cost against the 1% outdoor-equivalent reference factor ($0.209$), RunPaceStudio calculates your exact Grade Adjusted Pace (GAP) and flat-equivalent MPH or km/h across any incline from 0% up to 15%.
+            </p>
+          </details>
+          <details class="rounded-xl bg-slate-950 p-3.5">
+            <summary class="cursor-pointer font-bold text-slate-100">
+              What is the difference between Interval Training and Cruise Intervals?
+            </summary>
+            <p class="mt-2 text-xs text-slate-300">
+              According to Dr. Jack Daniels' <em>Running Formula</em>, Interval (I-Pace) training targets 95–100% of $\text{VO}_2\text{max}$ using 3 to 5 minute bouts with equal or slightly shorter recovery jogs to maximize aerobic power. Cruise Intervals (T-Pace) are run at lactate threshold (roughly 83–88% $\text{VO}_2\text{max}$ or 88–92% $\text{HR}_{\text{max}}$) in 5 to 10 minute blocks separated by short 60-second float recoveries to build lactate clearance stamina.
+            </p>
+          </details>
+          <details class="rounded-xl bg-slate-950 p-3.5">
+            <summary class="cursor-pointer font-bold text-slate-100">
+              How does the MAF 180 heart rate formula work for recovery and aerobic base runs?
+            </summary>
+            <p class="mt-2 text-xs text-slate-300">
+              Developed by Dr. Phil Maffetone, the MAF 180 formula estimates your maximum aerobic heart rate by subtracting your age from 180 and applying a clinical/training modifier (−10, −5, 0, or +5 bpm). Running at or below this ceiling prioritizes slow-twitch muscle fibers, mitochondrial biogenesis, and fat oxidation while minimizing cortisol and orthopedic stress.
+            </p>
+          </details>
+          <details class="rounded-xl bg-slate-950 p-3.5">
+            <summary class="cursor-pointer font-bold text-slate-100">
+              How much do heat, dew point, and headwind slow down outdoor running pace?
+            </summary>
+            <p class="mt-2 text-xs text-slate-300">
+              Thermoregulatory skin blood flow diverts cardiac output away from working muscles when the sum of ambient temperature (°F) and dew point (°F) exceeds 120. At a combined score of 150, runners typically slow by 3% to 4.5% for the same heart rate. Additionally, aerodynamic studies by Pugh (1971) and Davies (1980) show that headwinds increase oxygen cost with the square of relative air velocity, whereas tailwinds return roughly half of that metabolic difference.
+            </p>
+          </details>
+        </section>
+      </article>
+
+      <!-- =========================================================
+           푸터: 면책 고지 & AdSense 필수 정책 페이지 링크
+           ========================================================= -->
+      <footer class="mt-8 border-t border-slate-800 pt-5 text-xs text-slate-400">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <p>© <span id="year">2026</span> RunPaceStudio. Built for marathoners &amp; treadmill athletes.</p>
+          <nav aria-label="Footer legal and info links" class="flex flex-wrap gap-4 font-semibold text-slate-300">
+            <a href="about.html" class="hover:text-volt">About Us</a>
+            <a href="privacy.html" class="hover:text-volt">Privacy Policy</a>
+            <a href="contact.html" class="hover:text-volt">Contact</a>
+            <a href="sitemap.xml" class="hover:text-volt">Sitemap</a>
+          </nav>
+        </div>
+        <p class="mt-2 text-[11px] text-slate-500">
+          Disclaimer: RunPaceStudio provides sports-science estimates for educational and training purposes only and does not constitute medical advice. Always consult a qualified physician or certified coach before starting a high-intensity exercise program. All settings are stored locally on your device.
+        </p>
+      </footer>
+    </main>
+
+    <!-- =========================================================
+         크루 공유 (링크 복사 & 자체 내장 SVG QR 코드) 모달
+         ========================================================= -->
+    <div
+      id="share-modal"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="share-modal-title"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 p-4 backdrop-blur-sm"
+    >
+      <div class="w-full max-w-sm rounded-3xl border border-slate-700 bg-slate-900 p-5 text-center shadow-2xl">
+        <div class="flex items-center justify-between">
+          <h2 id="share-modal-title" class="text-base font-extrabold text-white">Share with Running Crew</h2>
+          <button
+            id="share-close-btn"
+            type="button"
+            aria-label="Close share dialog"
+            class="h-9 w-9 rounded-xl bg-slate-800 font-bold text-slate-300 hover:text-white"
+          >
+            ✕
+          </button>
+        </div>
+        <p class="mt-1 text-xs text-slate-400">
+          Scan QR code with any phone camera or copy your exact speed &amp; incline link.
+        </p>
+        <div id="qr-container" class="my-4"></div>
+        <input
+          id="share-url-input"
+          type="text"
+          readonly
+          aria-label="Shareable URL"
+          class="h-10 w-full rounded-xl border border-slate-700 bg-slate-950 px-3 text-center font-mono text-xs text-slate-300"
+        />
+        <p id="share-copy-msg" hidden class="mt-1.5 text-xs font-bold text-volt"></p>
+        <div class="mt-3 grid grid-cols-2 gap-2">
+          <button
+            id="share-copy-btn"
+            type="button"
+            class="min-h-11 rounded-xl bg-slate-800 px-3 text-xs font-extrabold text-slate-100 hover:border-volt"
+          >
+            Copy Link
+          </button>
+          <button
+            id="share-native-btn"
+            type="button"
+            class="min-h-11 rounded-xl bg-volt px-3 text-xs font-extrabold text-slate-950"
+          >
+            Share via Phone
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         하단 고정 4대 메인 탭 내비게이션 (48px+ 터치 타깃)
+         ========================================================= -->
+    <nav aria-label="Primary" class="safe-bottom fixed inset-x-0 bottom-0 z-40 border-t border-slate-800 bg-slate-950/95 backdrop-blur">
+      <ul class="mx-auto grid max-w-2xl grid-cols-4">
+        <li>
+          <button type="button" data-tab="pace" aria-current="page" class="flex h-16 w-full flex-col items-center justify-center gap-1 text-slate-400">
+            <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>
+            <span class="text-[11px] font-extrabold">Incline &amp; Pace</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-tab="workouts" class="flex h-16 w-full flex-col items-center justify-center gap-1 text-slate-400">
+            <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 17l5-6 4 4 4-7 5 9"/></svg>
+            <span class="text-[11px] font-extrabold">Workouts &amp; Form</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-tab="weather" class="flex h-16 w-full flex-col items-center justify-center gap-1 text-slate-400">
+            <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36l-1.42 1.42M7.05 16.95l-1.42 1.42m12.73 0l-1.42-1.42M7.05 7.05L5.63 5.63"/><circle cx="12" cy="12" r="4"/></svg>
+            <span class="text-[11px] font-extrabold">Weather &amp; MAF</span>
+          </button>
+        </li>
+        <li>
+          <button type="button" data-tab="paceband" class="flex h-16 w-full flex-col items-center justify-center gap-1 text-slate-400">
+            <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
+            <span class="text-[11px] font-extrabold">Pace Band</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </body>
+</html>

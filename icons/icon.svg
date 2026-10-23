@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- RunPaceStudio 아이콘: 어두운 배경 + 형광 속도계 바늘 -->
+  <rect width="512" height="512" rx="112" fill="#020617"/>
+  <path d="M96 336a160 160 0 0 1 320 0" fill="none" stroke="#334155" stroke-width="40" stroke-linecap="round"/>
+  <path d="M96 336a160 160 0 0 1 250-132" fill="none" stroke="#c6ff00" stroke-width="40" stroke-linecap="round"/>
+  <path d="M256 336L356 214" stroke="#ffffff" stroke-width="28" stroke-linecap="round"/>
+  <circle cx="256" cy="336" r="30" fill="#c6ff00"/>
+</svg>

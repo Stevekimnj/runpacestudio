@@ -1,0 +1,109 @@
+<!doctype html>
+<!--
+  RunPaceStudio — about.html
+  ------------------------------------------------------------------
+  Google AdSense 필수 신뢰도(E-E-A-T) 페이지:
+  서비스 개발 목적, 스포츠 과학 수식 출처(동료심사 논문), 편집 원칙 안내
+-->
+<html lang="en" class="bg-slate-950">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://cdn.tailwindcss.com; object-src 'none'; base-uri 'self'"
+    />
+    <title>About RunPaceStudio — Sports Science Methodology &amp; Editorial Standards</title>
+    <meta
+      name="description"
+      content="Learn how RunPaceStudio combines peer-reviewed exercise physiology (ACSM, Jones & Doust, Jack Daniels VDOT, Minetti) with mobile-first design for marathoners."
+    />
+    <meta name="theme-color" content="#020617" />
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="tw-config.js"></script>
+  </head>
+
+  <body class="min-h-dvh bg-slate-950 font-sans text-slate-100 antialiased">
+    <header class="border-b border-slate-800 bg-slate-950/95">
+      <div class="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
+        <a href="./index.html" class="flex items-center gap-2 text-lg font-extrabold tracking-tight">
+          <img src="icons/icon.svg" alt="" width="30" height="30" class="h-7 w-7 rounded-lg" />
+          <span>RunPace<span class="text-volt">Studio</span></span>
+        </a>
+        <a
+          href="./index.html"
+          class="rounded-xl bg-volt px-3.5 py-2 text-xs font-extrabold text-slate-950"
+        >
+          ← Back to Calculator
+        </a>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-2xl space-y-6 px-4 py-8 text-sm leading-relaxed text-slate-300">
+      <section class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+        <p class="text-xs font-bold uppercase tracking-widest text-volt">About Us</p>
+        <h1 class="mt-1 text-2xl font-extrabold text-white sm:text-3xl">
+          Built by Marathoners, Grounded in Peer-Reviewed Sports Science
+        </h1>
+        <p class="mt-3">
+          <strong>RunPaceStudio</strong> is a mobile-first progressive web application (PWA) engineered for marathon runners, track athletes, coaches, and everyday treadmill users who want laboratory-grade pacing accuracy without intrusive pop-ups, account walls, or bloated mobile apps.
+        </p>
+        <p class="mt-3">
+          When you are mid-workout at 88% of your maximum heart rate with sweat on your fingertips, you do not have time to do mental math between miles per hour (MPH), kilometers per hour (km/h), incline grades (0% to 15%), and outdoor Grade Adjusted Pace (GAP). We built RunPaceStudio with oversized 48px+ touch targets, instant MILE ↔ KM unit switching, and real-time metabolic calculations so you can focus 100% on your stride.
+        </p>
+      </section>
+
+      <section class="space-y-3 rounded-3xl border border-slate-800 bg-slate-900 p-6">
+        <h2 class="text-lg font-extrabold text-white">Our Scientific Methodology &amp; Citations</h2>
+        <p>
+          Every formula inside RunPaceStudio is cross-checked against published exercise physiology literature. Where runners rely on practical community heuristics (such as temperature + dew point tables or the MAF 180 rule), we clearly label them as rules of thumb alongside their peer-reviewed context:
+        </p>
+        <ul class="list-disc space-y-2 pl-5 text-xs sm:text-sm">
+          <li>
+            <strong class="text-volt">1% Treadmill Equivalence Rule:</strong>
+            Jones, A. M., &amp; Doust, J. H. (1996). <em>A 1% treadmill grade most accurately reflects the energetic cost of outdoor running.</em> Journal of Sports Sciences, 14(4), 321–327.
+          </li>
+          <li>
+            <strong class="text-volt">Running Oxygen Cost &amp; Calorie Equations:</strong>
+            American College of Sports Medicine (ACSM). <em>ACSM's Guidelines for Exercise Testing and Prescription</em> ($\text{VO}_2 = 0.2v + 0.9vG + 3.5\text{ ml}\cdot\text{kg}^{-1}\cdot\text{min}^{-1}$).
+          </li>
+          <li>
+            <strong class="text-volt">Steep Grade Energy Cost (0–15%+ Incline):</strong>
+            Minetti, A. E., Moia, C., Roi, G. S., Susta, D., &amp; Ferretti, G. (2002). <em>Energy cost of walking and running at extreme uphill and downhill slopes.</em> Journal of Applied Physiology, 93(3), 1039–1046.
+          </li>
+          <li>
+            <strong class="text-volt">VDOT &amp; Training Zone Prescriptions:</strong>
+            Daniels, J., &amp; Gilbert, J. (1979). <em>Oxygen Power: Performance Tables for Distance Runners</em>; Daniels, J. <em>Daniels' Running Formula</em>.
+          </li>
+          <li>
+            <strong class="text-volt">Speed-Specific Running Biomechanics:</strong>
+            Weyand, P. G., et al. (2000). <em>Faster top running speeds are achieved with greater ground forces not more rapid leg movements.</em> Journal of Applied Physiology, 89(5), 1991–1999; Heiderscheit, B. C., et al. (2011). <em>Effects of step rate manipulation on joint mechanics during running.</em> Medicine &amp; Science in Sports &amp; Exercise.
+          </li>
+          <li>
+            <strong class="text-volt">Aerodynamic Wind &amp; Thermal Pacing Models:</strong>
+            Pugh, L. G. C. E. (1971). <em>The influence of wind resistance in running and walking and the mechanical efficiency of work against horizontal or vertical forces.</em> The Journal of Physiology; Davies, C. T. M. (1980). <em>Effects of wind assistance and resistance on the forward motion of a runner.</em> Journal of Applied Physiology; Ely, M. R., et al. (2007). <em>Impact of weather on marathon-running performance.</em>
+          </li>
+        </ul>
+      </section>
+
+      <section class="space-y-3 rounded-3xl border border-slate-800 bg-slate-900 p-6">
+        <h2 class="text-lg font-extrabold text-white">Privacy-First &amp; Offline-Ready Architecture</h2>
+        <p>
+          RunPaceStudio operates 100% inside your browser. Your pace preferences, workout cue sheets, and body-weight settings are saved only in your own device's <code>localStorage</code> and are never transmitted to any external database. Once loaded, our Service Worker caches the application so it continues working reliably in basement gyms or marathon start corrals with weak cellular reception.
+        </p>
+      </section>
+
+      <footer class="border-t border-slate-800 pt-5 text-xs text-slate-400">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <p>© 2026 RunPaceStudio</p>
+          <nav class="flex gap-4 font-semibold text-slate-300">
+            <a href="index.html" class="hover:text-volt">Calculator</a>
+            <a href="privacy.html" class="hover:text-volt">Privacy Policy</a>
+            <a href="contact.html" class="hover:text-volt">Contact</a>
+          </nav>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>
