@@ -1,14 +1,14 @@
 <!doctype html>
 <!--
-  RunPaceStudio — index.html (v2 통합 완전체)
+  RunPaceStudio — index.html (v2.1 한/영 이중언어 완벽 지원 버전)
   ------------------------------------------------------------------
-  [4대 메인 탭 구성]
-    1. Tab 1 (Incline & Pace) : 기본 MPH(MILE↔KM 원터치 변환) + 0~15% 경사도 평지 환산(GAP) + VO2/칼로리
-    2. Tab 2 (Workouts & Form): 4대 훈련 큐시트(시간/속도/경사 미세 수정) + 콘솔 타이머 + 엘리트 4인 주법 매칭
-    3. Tab 3 (Weather & MAF)  : 기온·이슬점(습도)·풍속 야외 보정기 + MAF 180 심박수 계산기
-    4. Tab 4 (Pace Band)      : 5K/10K/Half/Full 마라톤 구간별 스플릿 + 인쇄·저장·QR 공유
-  [하단 AdSense 심층 가이드]
-    - 2,000+ 단어 영문 트레이닝·경사도 과학·엘리트 바이오메카닉스 분석·FAQ 및 JSON-LD 스키마
+  [핵심 기능]
+    - 상단 원터치 언어 스위치 (EN ↔ 한국어) + 단위 스위치 (MPH·MILE ↔ KM/H·KM)
+    - Tab 1 (Incline & Pace) : 기본 MPH + 0~15% 경사도 평지 환산(GAP) + VO2/칼로리
+    - Tab 2 (Workouts & Form): 4대 훈련 큐시트(미세 수정) + 콘솔 타이머 + 엘리트 4인 주법 매칭
+    - Tab 3 (Weather & MAF)  : 기온·이슬점(습도)·풍속 야외 보정기 + MAF 180 심박수 계산기
+    - Tab 4 (Pace Band)      : 5K/10K/Half/Full 마라톤 구간별 스플릿 + 인쇄·저장·QR 공유
+    - 하단 AdSense 심층 가이드: 한국어 요약 가이드(한국어 선택 시 표시) + 2,000+ 단어 영문 원문
 -->
 <html lang="en" class="bg-slate-950">
   <head>
@@ -110,33 +110,53 @@
 
   <body class="min-h-dvh bg-slate-950 font-sans text-slate-100 antialiased">
     <!-- =========================================================
-         상단 고정 헤더: 로고 + MILE↔KM 원터치 변환 버튼 + Share/QR + 앱 설치
+         상단 고정 헤더: 로고 + EN↔한국어 언어 스위치 + MILE↔KM 변환 스위치 + Share/QR
          ========================================================= -->
     <header class="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
-      <div class="mx-auto flex max-w-2xl flex-wrap items-center justify-between gap-2 px-3 py-2.5">
-        <a href="./" class="flex items-center gap-2 text-base font-extrabold tracking-tight sm:text-lg">
-          <img src="icons/icon.svg" alt="" width="30" height="30" class="h-7 w-7 rounded-lg" />
+      <div class="mx-auto flex max-w-2xl flex-wrap items-center justify-between gap-2 px-3 py-2">
+        <a href="./" class="flex shrink-0 items-center gap-1.5 text-base font-extrabold tracking-tight sm:text-lg">
+          <img src="icons/icon.svg" alt="" width="28" height="28" class="h-7 w-7 rounded-lg" />
           <span>RunPace<span class="text-volt">Studio</span></span>
         </a>
 
-        <div class="flex items-center gap-1.5">
-          <!-- 대표님 핵심 요청: 기본은 MPH(MILE)로 나타나고 버튼으로 MILE과 KM이 즉시 변환되는 토글 스위치 -->
-          <div class="inline-flex rounded-xl border border-slate-700 bg-slate-900 p-0.5" role="group" aria-label="Speed and distance unit converter">
+        <div class="flex flex-nowrap items-center gap-1.5 overflow-x-auto">
+          <!-- 🌐 한/영 언어 전환 버튼 (EN ↔ 한) -->
+          <div class="inline-flex h-9 shrink-0 items-center rounded-xl border border-slate-700 bg-slate-900 p-0.5" role="group" aria-label="Language switcher">
+            <button
+              type="button"
+              data-lang-toggle="en"
+              aria-pressed="true"
+              class="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-lg px-2 text-xs font-extrabold leading-none tracking-tight transition"
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              data-lang-toggle="ko"
+              aria-pressed="false"
+              class="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-lg px-2 text-xs font-extrabold leading-none tracking-tight text-slate-300 transition"
+            >
+              한
+            </button>
+          </div>
+
+          <!-- 📏 MILE ↔ KM 원터치 단위 변환 스위치 (기본값: MPH · MILE) -->
+          <div class="inline-flex h-9 shrink-0 items-center rounded-xl border border-slate-700 bg-slate-900 p-0.5" role="group" aria-label="Speed and distance unit converter">
             <button
               type="button"
               data-unit-toggle="mi"
               aria-pressed="true"
-              class="min-h-10 rounded-lg px-2.5 py-1 text-xs font-extrabold tracking-tight transition"
+              class="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-lg px-2 text-xs font-extrabold leading-none tracking-tight transition"
             >
-              MPH · MILE
+              MPH·MI
             </button>
             <button
               type="button"
               data-unit-toggle="km"
               aria-pressed="false"
-              class="min-h-10 rounded-lg px-2.5 py-1 text-xs font-extrabold tracking-tight text-slate-300 transition"
+              class="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-lg px-2 text-xs font-extrabold leading-none tracking-tight text-slate-300 transition"
             >
-              KM/H · KM
+              KM/H·KM
             </button>
           </div>
 
@@ -145,9 +165,9 @@
             type="button"
             data-open-share
             aria-label="Share setup via link or QR code"
-            class="min-h-10 rounded-xl border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-bold text-slate-200 hover:border-volt active:scale-95"
+            class="inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-xl border border-slate-700 bg-slate-900 px-2.5 text-xs font-bold leading-none text-slate-200 hover:border-volt active:scale-95"
           >
-            Share / QR
+            <span data-i18n="shareBtn">Share / QR</span>
           </button>
 
           <!-- 스마트폰 홈 화면 설치 버튼 -->
@@ -155,7 +175,8 @@
             id="install-btn"
             type="button"
             hidden
-            class="min-h-10 rounded-xl bg-volt px-3 py-1.5 text-xs font-extrabold text-slate-950 active:scale-95"
+            data-i18n="installBtn"
+            class="inline-flex h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-xl bg-volt px-2.5 text-xs font-extrabold leading-none text-slate-950 active:scale-95"
           >
             Install
           </button>
@@ -170,8 +191,10 @@
       <section data-panel="pace" aria-labelledby="pace-title">
         <div class="mb-3 flex flex-wrap items-baseline justify-between gap-2">
           <div>
-            <h1 id="pace-title" class="text-xl font-extrabold sm:text-2xl">Incline &amp; Pace Converter</h1>
-            <p class="text-xs text-slate-400">
+            <h1 id="pace-title" data-i18n="t1Title" class="text-xl font-extrabold sm:text-2xl">
+              Incline &amp; Pace Converter
+            </h1>
+            <p data-i18n="t1Sub" class="text-xs text-slate-400">
               Treadmill Speed &amp; Incline (0–15%) ↔ Flat Ground Equivalent Pace (GAP) + Real-time VO₂ &amp; Calories
             </p>
           </div>
@@ -182,7 +205,7 @@
           <!-- 왼쪽: 트레드밀 벨트 속도/페이스 -->
           <div class="rounded-2xl border border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 p-4">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Treadmill Belt</span>
+              <span data-i18n="beltHeader" class="text-xs font-bold uppercase tracking-wider text-slate-400">Treadmill Belt</span>
               <span id="big-incline-badge" class="rounded-full bg-slate-800 px-2.5 py-0.5 font-mono text-xs font-bold text-lime-300">1.0% Incline</span>
             </div>
             <div class="mt-2 flex items-baseline justify-between gap-2">
@@ -206,8 +229,8 @@
           <!-- 오른쪽: 경사도(0~15%)를 반영한 야외 평지 환산 속도 & 페이스 (GAP) -->
           <div class="rounded-2xl border border-lime-400/40 bg-gradient-to-b from-lime-950/30 to-slate-950 p-4">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-lime-300">Flat Ground Equivalent (GAP)</span>
-              <span class="rounded-full bg-lime-400/15 px-2 py-0.5 text-[11px] font-bold text-lime-300">Speed + Incline</span>
+              <span data-i18n="gapHeader" class="text-xs font-bold uppercase tracking-wider text-lime-300">Flat Ground Equivalent (GAP)</span>
+              <span data-i18n="gapBadge" class="rounded-full bg-lime-400/15 px-2 py-0.5 text-[11px] font-bold text-lime-300">Speed + Incline</span>
             </div>
             <div class="mt-2 flex items-baseline justify-between gap-2">
               <div>
@@ -218,12 +241,13 @@
                 <p id="gap-pace-sub" class="font-mono text-xs text-slate-300 tabular-nums">4:58 /km</p>
               </div>
               <div class="text-right">
-                <p class="text-xs text-slate-400">Flat Outdoor Speed</p>
+                <p data-i18n="flatSpeedLabel" class="text-xs text-slate-400">Flat Outdoor Speed</p>
                 <p id="gap-speed" class="font-mono text-2xl font-extrabold text-volt tabular-nums">7.5 mph</p>
               </div>
             </div>
             <p class="mt-2 border-t border-slate-800/80 pt-1.5 text-[11px] text-slate-400">
-              0% Zero-Wind Belt Equiv: <strong id="gap-zero-ref" class="font-mono text-slate-200">7.8 mph (7:39/mi)</strong>
+              <span data-i18n="zeroWindLabel">0% Zero-Wind Belt Equiv:</span>
+              <strong id="gap-zero-ref" class="font-mono text-slate-200">7.8 mph (7:39/mi)</strong>
             </p>
           </div>
         </div>
@@ -231,19 +255,19 @@
         <!-- 원터치 속도 프리셋 바 -->
         <div class="mb-3 rounded-2xl bg-slate-900 p-3">
           <div class="mb-1.5 flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-300">Quick Speed Presets</span>
-            <span class="text-[11px] text-slate-400">Tap to set belt speed</span>
+            <span data-i18n="presetTitle" class="text-xs font-bold text-slate-300">Quick Speed Presets</span>
+            <span data-i18n="presetHint" class="text-[11px] text-slate-400">Tap to set belt speed</span>
           </div>
           <div id="speed-presets" class="flex flex-wrap gap-1.5"></div>
         </div>
 
-        <!-- 대표님 핵심 요청: 트레드밀 기울기 각도(경사도) 0% ~ 15% 선택 컨트롤 -->
+        <!-- 트레드밀 기울기 각도(경사도) 0% ~ 15% 선택 컨트롤 -->
         <div class="mb-3 rounded-2xl border border-slate-800 bg-slate-900 p-3">
           <div class="mb-2 flex items-center justify-between">
-            <label for="in-incline" class="text-sm font-extrabold text-slate-200">
+            <label for="in-incline" data-i18n="inclineLabel" class="text-sm font-extrabold text-slate-200">
               Treadmill Incline Grade (0% – 15%)
             </label>
-            <span class="text-xs text-lime-300">1.0% = Outdoor Flat (Jones &amp; Doust)</span>
+            <span data-i18n="inclineRuleHint" class="text-xs text-lime-300">1.0% = Outdoor Flat (Jones &amp; Doust)</span>
           </div>
           <div class="flex items-center gap-2">
             <button
@@ -280,11 +304,11 @@
 
         <!-- 4대 속도/페이스 양방향 입력 + 큼직한 +/- 원터치 버튼 -->
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <!-- MPH (기본 강조) -->
+          <!-- MPH -->
           <div id="card-mph" class="rounded-2xl bg-slate-900 p-3">
             <label for="in-mph" class="mb-1 flex items-center justify-between text-xs font-bold text-slate-300">
-              <span>Treadmill Speed (MPH)</span>
-              <span class="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-volt">US Default</span>
+              <span data-i18n="lblMph">Treadmill Speed (MPH)</span>
+              <span data-i18n="badgeUs" class="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-volt">US Default</span>
             </label>
             <div class="flex items-center gap-2">
               <button type="button" data-step="mph:-0.1" aria-label="Decrease MPH by 0.1" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-2xl font-bold active:bg-volt active:text-slate-950">−</button>
@@ -295,7 +319,7 @@
 
           <!-- Pace per Mile -->
           <div id="card-pace-mi" class="rounded-2xl bg-slate-900 p-3">
-            <label for="in-pace-mi" class="mb-1 block text-xs font-bold text-slate-300">Pace per Mile (min:sec /mi)</label>
+            <label for="in-pace-mi" data-i18n="lblPaceMi" class="mb-1 block text-xs font-bold text-slate-300">Pace per Mile (min:sec /mi)</label>
             <div class="flex items-center gap-2">
               <button type="button" data-step="mi:5" aria-label="Slower pace per mile by 5 seconds" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-xs font-bold active:bg-volt active:text-slate-950">+5s</button>
               <input id="in-pace-mi" type="text" inputmode="numeric" autocomplete="off" class="h-14 w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-2xl font-bold tabular-nums focus:border-volt focus:outline-none" />
@@ -306,8 +330,8 @@
           <!-- km/h -->
           <div id="card-kmh" class="rounded-2xl bg-slate-900 p-3">
             <label for="in-kmh" class="mb-1 flex items-center justify-between text-xs font-bold text-slate-300">
-              <span>Treadmill Speed (km/h)</span>
-              <span class="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400">Metric</span>
+              <span data-i18n="lblKmh">Treadmill Speed (km/h)</span>
+              <span data-i18n="badgeMetric" class="rounded bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-400">Metric</span>
             </label>
             <div class="flex items-center gap-2">
               <button type="button" data-step="kmh:-0.1" aria-label="Decrease km/h by 0.1" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-2xl font-bold active:bg-volt active:text-slate-950">−</button>
@@ -318,7 +342,7 @@
 
           <!-- Pace per KM -->
           <div id="card-pace-km" class="rounded-2xl bg-slate-900 p-3">
-            <label for="in-pace-km" class="mb-1 block text-xs font-bold text-slate-300">Pace per KM (min:sec /km)</label>
+            <label for="in-pace-km" data-i18n="lblPaceKm" class="mb-1 block text-xs font-bold text-slate-300">Pace per KM (min:sec /km)</label>
             <div class="flex items-center gap-2">
               <button type="button" data-step="km:5" aria-label="Slower pace per km by 5 seconds" class="h-14 w-14 shrink-0 rounded-xl bg-slate-800 text-xs font-bold active:bg-volt active:text-slate-950">+5s</button>
               <input id="in-pace-km" type="text" inputmode="numeric" autocomplete="off" class="h-14 w-full min-w-0 rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-2xl font-bold tabular-nums focus:border-volt focus:outline-none" />
@@ -331,16 +355,16 @@
         <div class="mt-4 rounded-2xl border border-slate-800 bg-slate-900 p-4">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <h2 class="text-sm font-extrabold text-slate-100">Real-Time Metabolic VO₂ &amp; Calorie Burn</h2>
-              <p class="text-xs text-slate-400">ACSM Running Equation (Speed + 0–15% Grade)</p>
+              <h2 data-i18n="vo2Title" class="text-sm font-extrabold text-slate-100">Real-Time Metabolic VO₂ &amp; Calorie Burn</h2>
+              <p data-i18n="vo2Sub" class="text-xs text-slate-400">ACSM Running Equation (Speed + 0–15% Grade)</p>
             </div>
             <div class="flex items-center gap-1.5">
-              <label for="in-weight" class="text-xs font-semibold text-slate-400">Body Weight:</label>
+              <label for="in-weight" data-i18n="weightLabel" class="text-xs font-semibold text-slate-400">Body Weight:</label>
               <input
                 id="in-weight"
                 type="number"
                 inputmode="decimal"
-                min="60"
+                min="40"
                 max="400"
                 class="h-10 w-20 rounded-lg border border-slate-700 bg-slate-950 text-center font-mono text-sm font-bold text-slate-100"
               />
@@ -348,9 +372,9 @@
             </div>
           </div>
 
-          <dl class="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-2">
+          <dl class="mt-3 grid grid-cols-2 gap-2.5">
             <div class="rounded-xl bg-slate-950 p-3">
-              <dt class="text-xs text-slate-400">Oxygen Cost (VO₂)</dt>
+              <dt data-i18n="oxygenCostLbl" class="text-xs text-slate-400">Oxygen Cost (VO₂)</dt>
               <dd class="mt-0.5 font-mono text-2xl font-black text-volt tabular-nums">
                 <span id="stat-vo2">36.7</span>
                 <span class="text-xs font-normal text-slate-400">ml/kg/min</span>
@@ -358,7 +382,7 @@
               <dd id="stat-mets" class="mt-0.5 font-mono text-xs text-slate-400">10.5 METs</dd>
             </div>
             <div class="rounded-xl bg-slate-950 p-3">
-              <dt class="text-xs text-slate-400">Estimated Energy Burn</dt>
+              <dt data-i18n="energyBurnLbl" class="text-xs text-slate-400">Estimated Energy Burn</dt>
               <dd class="mt-0.5 font-mono text-2xl font-black text-lime-300 tabular-nums">
                 <span id="stat-kcal-hr">770</span>
                 <span class="text-xs font-normal text-slate-400">kcal / hr</span>
@@ -370,46 +394,46 @@
 
         <!-- 거리별 완주 시간 (벨트 속도 기준 & 평지 환산 GAP 기준) -->
         <div class="mt-4 rounded-2xl bg-slate-900 p-4">
-          <h2 class="mb-2 text-sm font-extrabold">Projected Race Finish Times (Belt vs. Flat GAP)</h2>
+          <h2 data-i18n="finishTitle" class="mb-2 text-sm font-extrabold">Projected Race Finish Times (Belt vs. Flat GAP)</h2>
           <dl id="finish-list" class="grid grid-cols-1 gap-2 sm:grid-cols-2"></dl>
         </div>
 
         <!-- 0% ~ 15% 경사도별 평지 환산 페이스(GAP) & 동일 부하 벨트 속도 비교표 -->
         <div class="mt-4 rounded-2xl bg-slate-900 p-4">
-          <h2 class="text-sm font-extrabold">
+          <h2 data-i18n="matrixTitle" class="text-sm font-extrabold">
             0% – 15% Incline Conversion Matrix
           </h2>
           <p class="mb-3 text-xs text-slate-400">
-            At your current belt setting (<strong id="incline-target" class="text-slate-200">7.5 mph</strong>), see the flat-ground equivalent speed &amp; GAP at each grade, or the belt speed needed to match that effort.
+            <span data-i18n="matrixDesc1">At your current belt setting</span> (<strong id="incline-target" class="text-slate-200">7.5 mph</strong>), <span data-i18n="matrixDesc2">see the flat-ground equivalent speed &amp; GAP at each grade, or the belt speed needed to match that effort.</span>
           </p>
           <div class="overflow-x-auto">
             <table class="w-full overflow-hidden rounded-xl text-xs sm:text-sm">
               <caption class="sr-only">Treadmill 0 to 15 percent incline flat ground equivalent speed and pace matrix</caption>
               <thead class="bg-slate-800 text-[11px] uppercase text-slate-400">
                 <tr>
-                  <th scope="col" class="py-2 pl-3 text-left">Incline</th>
-                  <th scope="col" class="py-2 text-right">Flat Equiv Speed</th>
-                  <th scope="col" class="py-2 text-right">Flat GAP</th>
-                  <th scope="col" class="py-2 pr-3 text-right">Belt for Same Effort</th>
+                  <th scope="col" data-i18n="thIncline" class="py-2 pl-3 text-left">Incline</th>
+                  <th scope="col" data-i18n="thFlatSpd" class="py-2 text-right">Flat Equiv Speed</th>
+                  <th scope="col" data-i18n="thFlatGap" class="py-2 text-right">Flat GAP</th>
+                  <th scope="col" data-i18n="thBeltSame" class="py-2 pr-3 text-right">Belt for Same Effort</th>
                 </tr>
               </thead>
               <tbody id="incline-body"></tbody>
             </table>
           </div>
-          <p id="incline-warn" hidden class="mt-2 rounded-lg bg-amber-500/10 p-2 text-xs text-amber-300">
+          <p id="incline-warn" hidden data-i18n="inclineWarn" class="mt-2 rounded-lg bg-amber-500/10 p-2 text-xs text-amber-300">
             Note: Below ~5.0 mph (8.0 km/h) biomechanics shift from running to walking/power-hiking; ACSM running equations are shown as a continuous reference.
           </p>
         </div>
       </section>
 
       <!-- =========================================================
-           TAB 2: Treadmill Workouts & Elite Form Studio [신규 핵심 기능]
+           TAB 2: Treadmill Workouts & Elite Form Studio
            ========================================================= -->
       <section data-panel="workouts" hidden aria-labelledby="wk-title">
         <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h1 id="wk-title" class="text-xl font-extrabold sm:text-2xl">Treadmill Workouts &amp; Elite Form Studio</h1>
-            <p class="text-xs text-slate-400">
+            <h1 id="wk-title" data-i18n="t2Title" class="text-xl font-extrabold sm:text-2xl">Treadmill Workouts &amp; Elite Form Studio</h1>
+            <p data-i18n="t2Sub" class="text-xs text-slate-400">
               Auto-generate editable 30/45/60-min cue sheets &amp; match your speed to elite biomechanics.
             </p>
           </div>
@@ -418,11 +442,11 @@
 
         <!-- 1) 나의 기준 입력 (Easy Pace / 5K 기록 / 목표 마라톤 시간) + 총 운동 시간(30/45/60분) -->
         <div class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
-          <h2 class="mb-2 text-sm font-extrabold text-slate-200">Step 1 · Set Your Baseline &amp; Total Workout Time</h2>
+          <h2 data-i18n="wkStep1Title" class="mb-2 text-sm font-extrabold text-slate-200">Step 1 · Set Your Baseline &amp; Total Workout Time</h2>
           <div class="grid grid-cols-3 gap-1.5" role="group" aria-label="Select baseline input type">
-            <button type="button" data-wk-base="easy" aria-pressed="true" class="min-h-11 rounded-xl border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs font-bold">Easy Pace</button>
-            <button type="button" data-wk-base="5k" aria-pressed="false" class="min-h-11 rounded-xl border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs font-bold">5K Time</button>
-            <button type="button" data-wk-base="marathon" aria-pressed="false" class="min-h-11 rounded-xl border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs font-bold">Goal Marathon</button>
+            <button type="button" data-wk-base="easy" data-i18n="btnEasyPace" aria-pressed="true" class="min-h-11 rounded-xl border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs font-bold">Easy Pace</button>
+            <button type="button" data-wk-base="5k" data-i18n="btn5kTime" aria-pressed="false" class="min-h-11 rounded-xl border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs font-bold">5K Time</button>
+            <button type="button" data-wk-base="marathon" data-i18n="btnGoalMara" aria-pressed="false" class="min-h-11 rounded-xl border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs font-bold">Goal Marathon</button>
           </div>
 
           <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -437,7 +461,7 @@
               />
             </div>
             <div>
-              <span class="mb-1 block text-xs font-bold text-slate-300">Total Workout Duration</span>
+              <span data-i18n="wkDurLabel" class="mb-1 block text-xs font-bold text-slate-300">Total Workout Duration</span>
               <div class="grid grid-cols-3 gap-1.5" role="group" aria-label="Select workout duration in minutes">
                 <button type="button" data-wk-dur="30" aria-pressed="false" class="h-12 rounded-xl border border-slate-700 bg-slate-800 font-mono text-sm font-extrabold">30 min</button>
                 <button type="button" data-wk-dur="45" aria-pressed="true" class="h-12 rounded-xl border border-slate-700 bg-slate-800 font-mono text-sm font-extrabold">45 min</button>
@@ -452,37 +476,38 @@
 
         <!-- 2) 4대 훈련법 선택 버튼 -->
         <div class="mt-4 rounded-2xl border border-slate-800 bg-slate-900 p-4">
-          <h2 class="mb-2 text-sm font-extrabold text-slate-200">Step 2 · Choose Your Workout Protocol</h2>
+          <h2 data-i18n="wkStep2Title" class="mb-2 text-sm font-extrabold text-slate-200">Step 2 · Choose Your Workout Protocol</h2>
           <div class="grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-label="Select treadmill workout type">
             <button type="button" data-wk-type="interval" aria-pressed="true" class="min-h-14 rounded-xl border border-slate-700 bg-slate-800 p-2 text-left">
-              <div class="text-xs font-extrabold">① Interval</div>
-              <div class="text-[10px] opacity-80">VO₂max I-Pace &amp; Jog</div>
+              <div data-i18n="wkBtn1Title" class="text-xs font-extrabold">① Interval</div>
+              <div data-i18n="wkBtn1Sub" class="text-[10px] opacity-80">VO₂max I-Pace &amp; Jog</div>
             </button>
             <button type="button" data-wk-type="cruise" aria-pressed="false" class="min-h-14 rounded-xl border border-slate-700 bg-slate-800 p-2 text-left">
-              <div class="text-xs font-extrabold">② Cruise Run</div>
-              <div class="text-[10px] opacity-80">Daniels T-Pace Threshold</div>
+              <div data-i18n="wkBtn2Title" class="text-xs font-extrabold">② Cruise Run</div>
+              <div data-i18n="wkBtn2Sub" class="text-[10px] opacity-80">Daniels T-Pace Threshold</div>
             </button>
             <button type="button" data-wk-type="buildup" aria-pressed="false" class="min-h-14 rounded-xl border border-slate-700 bg-slate-800 p-2 text-left">
-              <div class="text-xs font-extrabold">③ Build-up</div>
-              <div class="text-[10px] opacity-80">4-Stage Progression</div>
+              <div data-i18n="wkBtn3Title" class="text-xs font-extrabold">③ Build-up</div>
+              <div data-i18n="wkBtn3Sub" class="text-[10px] opacity-80">4-Stage Progression</div>
             </button>
             <button type="button" data-wk-type="recovery" aria-pressed="false" class="min-h-14 rounded-xl border border-slate-700 bg-slate-800 p-2 text-left">
-              <div class="text-xs font-extrabold">④ Recovery/MAF</div>
-              <div class="text-[10px] opacity-80">Low-HR Aerobic Base</div>
+              <div data-i18n="wkBtn4Title" class="text-xs font-extrabold">④ Recovery/MAF</div>
+              <div data-i18n="wkBtn4Sub" class="text-[10px] opacity-80">Low-HR Aerobic Base</div>
             </button>
           </div>
 
           <!-- 큐시트 요약 & 콘솔 타이머 시작 버튼 -->
           <div class="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-slate-950 px-3 py-2.5">
             <div class="text-xs">
-              Total: <strong id="wk-summary-time" class="font-mono text-volt">45 min</strong> · Est. Distance:
-              <strong id="wk-summary-dist" class="font-mono text-lime-300">5.40 mi</strong>
-              <span class="ml-1 text-[11px] text-slate-400">(Use −/+ in table to fine-tune any stage)</span>
+              <span data-i18n="wkTotalLbl">Total:</span> <strong id="wk-summary-time" class="font-mono text-volt">45 min</strong> ·
+              <span data-i18n="wkDistLbl">Est. Distance:</span> <strong id="wk-summary-dist" class="font-mono text-lime-300">5.40 mi</strong>
+              <span data-i18n="wkEditHint" class="ml-1 text-[11px] text-slate-400">(Use −/+ in table to fine-tune any stage)</span>
             </div>
             <div class="flex items-center gap-2">
               <button
                 id="wk-reset-btn"
                 type="button"
+                data-i18n="wkResetBtn"
                 class="min-h-10 rounded-xl border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-300 hover:border-volt"
               >
                 Reset
@@ -490,6 +515,7 @@
               <button
                 id="wk-start-console-btn"
                 type="button"
+                data-i18n="wkStartBtn"
                 class="min-h-10 rounded-xl bg-volt px-3.5 py-1.5 text-xs font-extrabold text-slate-950 active:scale-95"
               >
                 ▶ Start Console Timer
@@ -501,19 +527,19 @@
           <div id="console-player" hidden class="mt-3 rounded-2xl border-2 border-volt bg-slate-950 p-4">
             <div class="flex items-center justify-between">
               <span id="con-stage-name" class="text-xs font-extrabold uppercase tracking-wider text-volt">Stage 1</span>
-              <span class="rounded-full bg-lime-400/15 px-2 py-0.5 text-[10px] font-bold text-lime-300">Screen Wake-Lock Active</span>
+              <span data-i18n="wakeLockBadge" class="rounded-full bg-lime-400/15 px-2 py-0.5 text-[10px] font-bold text-lime-300">Screen Wake-Lock Active</span>
             </div>
             <div class="my-3 grid grid-cols-3 items-center gap-2 text-center">
               <div class="rounded-xl bg-slate-900 p-2.5">
-                <div class="text-[10px] uppercase text-slate-400">Time Left</div>
+                <div data-i18n="conTimeLeft" class="text-[10px] uppercase text-slate-400">Time Left</div>
                 <div id="con-timer" class="font-mono text-3xl font-black text-white tabular-nums">10:00</div>
               </div>
               <div class="rounded-xl bg-slate-900 p-2.5">
-                <div class="text-[10px] uppercase text-slate-400">Set Speed</div>
+                <div data-i18n="conSetSpeed" class="text-[10px] uppercase text-slate-400">Set Speed</div>
                 <div id="con-speed" class="font-mono text-2xl font-black text-volt tabular-nums">7.0 MPH</div>
               </div>
               <div class="rounded-xl bg-slate-900 p-2.5">
-                <div class="text-[10px] uppercase text-slate-400">Set Incline</div>
+                <div data-i18n="conSetIncline" class="text-[10px] uppercase text-slate-400">Set Incline</div>
                 <div id="con-incline" class="font-mono text-2xl font-black text-lime-300 tabular-nums">1.0%</div>
               </div>
             </div>
@@ -533,11 +559,11 @@
               <caption class="sr-only">Editable treadmill workout cue sheet with time, speed, incline, and heart rate zone</caption>
               <thead class="bg-slate-800 text-[11px] uppercase text-slate-400">
                 <tr>
-                  <th scope="col" class="py-2 pl-3">Stage &amp; Coaching Cue</th>
-                  <th scope="col" class="py-2 text-center">Min</th>
-                  <th scope="col" class="py-2 text-center">Speed (MPH &amp; km/h)</th>
-                  <th scope="col" class="py-2 text-center">Incline</th>
-                  <th scope="col" class="py-2 pr-3 text-right">Target HR Zone</th>
+                  <th scope="col" data-i18n="thStageCue" class="py-2 pl-3">Stage &amp; Coaching Cue</th>
+                  <th scope="col" data-i18n="thMin" class="py-2 text-center">Min</th>
+                  <th scope="col" data-i18n="thSpeedDual" class="py-2 text-center">Speed (MPH &amp; km/h)</th>
+                  <th scope="col" data-i18n="thIncline" class="py-2 text-center">Incline</th>
+                  <th scope="col" data-i18n="thHrZone" class="py-2 pr-3 text-right">Target HR Zone</th>
                 </tr>
               </thead>
               <tbody id="wk-cue-body"></tbody>
@@ -549,9 +575,9 @@
         <div class="mt-4 rounded-2xl border border-slate-800 bg-slate-900 p-4">
           <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
             <div>
-              <h2 class="text-base font-extrabold text-slate-100">Elite Runner Form by Speed Studio</h2>
+              <h2 data-i18n="eliteStudioTitle" class="text-base font-extrabold text-slate-100">Elite Runner Form by Speed Studio</h2>
               <p class="text-xs text-slate-400">
-                Matched to your current treadmill setting (<strong id="elite-current-speed" class="text-volt">7.5 MPH @ 1.0%</strong>):
+                <span data-i18n="eliteMatchedSub">Matched to your current treadmill setting</span> (<strong id="elite-current-speed" class="text-volt">7.5 MPH @ 1.0%</strong>):
                 <strong id="elite-matched-name" class="text-lime-300">Eliud Kipchoge</strong>
               </p>
             </div>
@@ -564,15 +590,15 @@
            TAB 3: Weather (Temp / Dew Point / Wind) & MAF 180 Adjuster
            ========================================================= -->
       <section data-panel="weather" hidden aria-labelledby="weather-title">
-        <h1 id="weather-title" class="mb-1 text-xl font-extrabold sm:text-2xl">Weather, Wind &amp; MAF 180 Adjuster</h1>
-        <p class="mb-4 text-xs text-slate-400">
+        <h1 id="weather-title" data-i18n="t3Title" class="mb-1 text-xl font-extrabold sm:text-2xl">Weather, Wind &amp; MAF 180 Adjuster</h1>
+        <p data-i18n="t3Sub" class="mb-4 text-xs text-slate-400">
           Calculate heat, humidity (dew point), and headwind/tailwind pace adjustments plus your Maffetone MAF 180 heart-rate ceiling.
         </p>
 
         <!-- 1) 기온 + 이슬점(또는 상대습도 %) + 풍속 페이스 보정기 -->
         <div class="rounded-2xl border border-slate-800 bg-slate-900 p-4">
           <div class="flex flex-wrap items-center justify-between gap-2">
-            <h2 class="text-sm font-extrabold">Heat, Dew Point &amp; Wind Pace Adjuster</h2>
+            <h2 data-i18n="weatherCardTitle" class="text-sm font-extrabold">Heat, Dew Point &amp; Wind Pace Adjuster</h2>
             <div class="inline-flex rounded-xl bg-slate-800 p-1" role="group" aria-label="Temperature unit">
               <button type="button" data-temp-unit="F" aria-pressed="true" class="min-h-10 min-w-12 rounded-lg px-3 text-xs font-extrabold">°F</button>
               <button type="button" data-temp-unit="C" aria-pressed="false" class="min-h-10 min-w-12 rounded-lg px-3 text-xs font-extrabold">°C</button>
@@ -581,64 +607,64 @@
 
           <!-- 습도 입력 모드 선택: 이슬점 vs 상대습도(%) -->
           <div class="mt-2 inline-flex rounded-xl bg-slate-800 p-1" role="group" aria-label="Humidity input mode">
-            <button type="button" data-humid-mode="dew" aria-pressed="true" class="min-h-9 rounded-lg px-3 text-xs font-bold">Enter Dew Point</button>
-            <button type="button" data-humid-mode="rh" aria-pressed="false" class="min-h-9 rounded-lg px-3 text-xs font-bold">Enter Relative Humidity (%)</button>
+            <button type="button" data-humid-mode="dew" data-i18n="btnEnterDew" aria-pressed="true" class="min-h-9 rounded-lg px-3 text-xs font-bold">Enter Dew Point</button>
+            <button type="button" data-humid-mode="rh" data-i18n="btnEnterRh" aria-pressed="false" class="min-h-9 rounded-lg px-3 text-xs font-bold">Enter Relative Humidity (%)</button>
           </div>
 
           <div class="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
             <div>
-              <label for="in-temp" class="mb-1 block text-xs font-bold text-slate-300">Temperature (<span class="temp-unit-label">°F</span>)</label>
+              <label for="in-temp" class="mb-1 block text-xs font-bold text-slate-300"><span data-i18n="lblTemp">Temperature</span> (<span class="temp-unit-label">°F</span>)</label>
               <input id="in-temp" type="number" inputmode="decimal" value="78" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-lg font-bold" />
             </div>
 
             <div id="dew-input-wrap">
-              <label for="in-dew" class="mb-1 block text-xs font-bold text-slate-300">Dew Point (<span class="temp-unit-label">°F</span>)</label>
+              <label for="in-dew" class="mb-1 block text-xs font-bold text-slate-300"><span data-i18n="lblDew">Dew Point</span> (<span class="temp-unit-label">°F</span>)</label>
               <input id="in-dew" type="number" inputmode="decimal" value="65" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-lg font-bold" />
             </div>
 
             <div id="rh-input-wrap" hidden>
-              <label for="in-rh" class="mb-1 block text-xs font-bold text-slate-300">Humidity (%)</label>
+              <label for="in-rh" data-i18n="lblRh" class="mb-1 block text-xs font-bold text-slate-300">Humidity (%)</label>
               <input id="in-rh" type="number" inputmode="decimal" min="5" max="100" value="65" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-lg font-bold" />
             </div>
 
             <div>
-              <label for="in-wind" class="mb-1 block text-xs font-bold text-slate-300">Wind (<span id="wind-unit-label">MPH</span>)</label>
+              <label for="in-wind" class="mb-1 block text-xs font-bold text-slate-300"><span data-i18n="lblWind">Wind</span> (<span id="wind-unit-label">MPH</span>)</label>
               <input id="in-wind" type="number" inputmode="decimal" min="0" max="50" value="10" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-lg font-bold" />
             </div>
 
             <div>
-              <label for="wind-dir" class="mb-1 block text-xs font-bold text-slate-300">Wind Direction</label>
+              <label for="wind-dir" data-i18n="lblWindDir" class="mb-1 block text-xs font-bold text-slate-300">Wind Direction</label>
               <select id="wind-dir" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-2 text-xs font-bold">
-                <option value="head">Headwind (Against)</option>
-                <option value="tail">Tailwind (Behind)</option>
-                <option value="cross">Crosswind (Side)</option>
+                <option value="head" data-i18n="optHeadwind">Headwind (Against)</option>
+                <option value="tail" data-i18n="optTailwind">Tailwind (Behind)</option>
+                <option value="cross" data-i18n="optCrosswind">Crosswind (Side)</option>
               </select>
             </div>
           </div>
 
-          <p id="dew-error" hidden role="alert" class="mt-2 rounded-lg bg-red-500/15 p-2 text-xs text-red-300">
+          <p id="dew-error" hidden role="alert" data-i18n="dewErrorMsg" class="mt-2 rounded-lg bg-red-500/15 p-2 text-xs text-red-300">
             Dew point cannot exceed air temperature. Please lower the dew point or switch to Relative Humidity (%).
           </p>
 
           <dl id="dew-out" class="mt-3 grid grid-cols-2 gap-2 text-center sm:grid-cols-4">
             <div class="rounded-xl bg-slate-950 p-2.5">
-              <dt class="text-[11px] text-slate-400">Heat Index Sum</dt>
+              <dt data-i18n="dtHeatSum" class="text-[11px] text-slate-400">Heat Index Sum</dt>
               <dd id="dew-sum" class="font-mono text-base font-extrabold text-slate-100">143</dd>
             </div>
             <div class="rounded-xl bg-slate-950 p-2.5">
-              <dt class="text-[11px] text-slate-400">Heat Slowdown</dt>
+              <dt data-i18n="dtHeatSlow" class="text-[11px] text-slate-400">Heat Slowdown</dt>
               <dd id="dew-pct" class="font-mono text-base font-extrabold text-amber-300">3–4.5%</dd>
             </div>
             <div class="rounded-xl bg-slate-950 p-2.5">
-              <dt class="text-[11px] text-slate-400">Wind Effect</dt>
+              <dt data-i18n="dtWindEff" class="text-[11px] text-slate-400">Wind Effect</dt>
               <dd id="wind-pct" class="font-mono text-base font-extrabold text-sky-300">+1.8%</dd>
             </div>
             <div class="rounded-xl bg-slate-950 p-2.5">
-              <dt class="text-[11px] text-slate-400">Thermal Status</dt>
+              <dt data-i18n="dtThermStatus" class="text-[11px] text-slate-400">Thermal Status</dt>
               <dd id="dew-note" class="text-xs font-bold text-slate-200">Hard — hydrate</dd>
             </div>
             <div class="col-span-2 rounded-xl border border-volt/40 bg-slate-950 p-3 sm:col-span-4">
-              <dt class="text-xs text-slate-400">Weather-Adjusted Outdoor Target Pace (Equal Effort)</dt>
+              <dt data-i18n="dtAdjPace" class="text-xs text-slate-400">Weather-Adjusted Outdoor Target Pace (Equal Effort)</dt>
               <dd id="dew-pace" class="mt-0.5 font-mono text-3xl font-black text-volt tabular-nums">8:26/mi</dd>
               <dd id="dew-base-ref" class="mt-0.5 font-mono text-xs text-slate-400">Baseline: 8:00/mi (7.5 mph)</dd>
             </div>
@@ -648,40 +674,40 @@
         <!-- 2) MAF 180 심박수 계산기 -->
         <div class="mt-4 rounded-2xl border border-slate-800 bg-slate-900 p-4">
           <div class="flex items-center justify-between">
-            <h2 class="text-sm font-extrabold">MAF 180 Aerobic Heart Rate Calculator</h2>
+            <h2 data-i18n="mafCardTitle" class="text-sm font-extrabold">MAF 180 Aerobic Heart Rate Calculator</h2>
             <span class="rounded-full bg-lime-400/15 px-2.5 py-0.5 text-xs font-bold text-lime-300">Dr. Phil Maffetone</span>
           </div>
-          <p class="mt-1 text-xs text-slate-400">
+          <p data-i18n="mafCardSub" class="mt-1 text-xs text-slate-400">
             Build fat-burning mitochondrial density and prevent overtraining syndrome by capping aerobic runs at your MAF ceiling.
           </p>
 
           <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-              <label for="in-maf-age" class="mb-1 block text-xs font-bold text-slate-300">Your Age (Years)</label>
+              <label for="in-maf-age" data-i18n="lblMafAge" class="mb-1 block text-xs font-bold text-slate-300">Your Age (Years)</label>
               <input id="in-maf-age" type="number" inputmode="numeric" min="14" max="95" value="35" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 text-center font-mono text-xl font-bold" />
             </div>
             <div>
-              <label for="maf-mod" class="mb-1 block text-xs font-bold text-slate-300">Health &amp; Training Modifier</label>
+              <label for="maf-mod" data-i18n="lblMafMod" class="mb-1 block text-xs font-bold text-slate-300">Health &amp; Training Modifier</label>
               <select id="maf-mod" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-2 text-xs font-bold">
-                <option value="-10">−10 · Recovering from major illness, surgery, or on regular medication</option>
-                <option value="-5">−5 · Injured, &gt;2 colds/yr, allergies/asthma, or beginner/returning</option>
-                <option value="0" selected>0 · Consistently training 4x/wk for 1–2 years without injury</option>
-                <option value="5">+5 · Competing &gt;2 years injury-free with improving race results</option>
+                <option value="-10" data-i18n="mafOpt1">−10 · Recovering from major illness, surgery, or on regular medication</option>
+                <option value="-5" data-i18n="mafOpt2">−5 · Injured, &gt;2 colds/yr, allergies/asthma, or beginner/returning</option>
+                <option value="0" selected data-i18n="mafOpt3">0 · Consistently training 4x/wk for 1–2 years without injury</option>
+                <option value="5" data-i18n="mafOpt4">+5 · Competing &gt;2 years injury-free with improving race results</option>
               </select>
             </div>
           </div>
 
           <dl class="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-3">
             <div class="rounded-xl bg-slate-950 p-3 text-center">
-              <dt class="text-xs text-slate-400">MAF Ceiling HR</dt>
+              <dt data-i18n="dtMafCeiling" class="text-xs text-slate-400">MAF Ceiling HR</dt>
               <dd id="maf-target-hr" class="mt-0.5 font-mono text-2xl font-black text-volt">145 bpm</dd>
             </div>
             <div class="rounded-xl bg-slate-950 p-3 text-center">
-              <dt class="text-xs text-slate-400">MAF Aerobic Zone</dt>
+              <dt data-i18n="dtMafZone" class="text-xs text-slate-400">MAF Aerobic Zone</dt>
               <dd id="maf-zone-range" class="mt-0.5 font-mono text-lg font-extrabold text-lime-300">135 – 145 bpm</dd>
             </div>
             <div class="rounded-xl bg-slate-950 p-3 text-center">
-              <dt class="text-xs text-slate-400">Suggested Treadmill Start</dt>
+              <dt data-i18n="dtMafStart" class="text-xs text-slate-400">Suggested Treadmill Start</dt>
               <dd id="maf-rec-speed" class="mt-0.5 font-mono text-sm font-bold text-slate-200">6.2 MPH @ 1.0%</dd>
             </div>
           </dl>
@@ -694,8 +720,8 @@
       <section data-panel="paceband" hidden aria-labelledby="pb-title">
         <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h1 id="pb-title" class="text-xl font-extrabold sm:text-2xl">Marathon &amp; Race Pace Band</h1>
-            <p class="text-xs text-slate-400">
+            <h1 id="pb-title" data-i18n="t4Title" class="text-xl font-extrabold sm:text-2xl">Marathon &amp; Race Pace Band</h1>
+            <p data-i18n="t4Sub" class="text-xs text-slate-400">
               Generate mile or kilometer splits for 5K, 10K, Half, or Full Marathon—save to phone, print wristband, or share QR.
             </p>
           </div>
@@ -704,16 +730,16 @@
         <div class="no-print rounded-2xl border border-slate-800 bg-slate-900 p-4">
           <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <div>
-              <label for="pb-race" class="mb-1 block text-xs font-bold text-slate-300">Race Distance</label>
+              <label for="pb-race" data-i18n="lblPbRace" class="mb-1 block text-xs font-bold text-slate-300">Race Distance</label>
               <select id="pb-race" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-3 text-sm font-bold">
-                <option value="5k">5K (3.11 mi)</option>
-                <option value="10k">10K (6.21 mi)</option>
-                <option value="half">Half Marathon (13.11 mi)</option>
-                <option value="full" selected>Full Marathon (26.22 mi)</option>
+                <option value="5k" data-i18n="optRace5k">5K (3.11 mi / 5 km)</option>
+                <option value="10k" data-i18n="optRace10k">10K (6.21 mi / 10 km)</option>
+                <option value="half" data-i18n="optRaceHalf">Half Marathon (13.11 mi / 21.1 km)</option>
+                <option value="full" selected data-i18n="optRaceFull">Full Marathon (26.22 mi / 42.2 km)</option>
               </select>
             </div>
             <div>
-              <label for="pb-time" class="mb-1 block text-xs font-bold text-slate-300">Goal Finish Time (h:mm:ss)</label>
+              <label for="pb-time" data-i18n="lblPbTime" class="mb-1 block text-xs font-bold text-slate-300">Goal Finish Time (h:mm:ss)</label>
               <input
                 id="pb-time"
                 type="text"
@@ -723,33 +749,33 @@
               />
             </div>
             <div>
-              <label for="pb-strategy" class="mb-1 block text-xs font-bold text-slate-300">Pacing Strategy</label>
+              <label for="pb-strategy" data-i18n="lblPbStrat" class="mb-1 block text-xs font-bold text-slate-300">Pacing Strategy</label>
               <select id="pb-strategy" class="h-12 w-full rounded-xl border border-slate-700 bg-slate-950 px-3 text-xs font-bold">
-                <option value="even">Even Splits (Metronomic)</option>
-                <option value="negative">Negative Split (Faster 2nd Half)</option>
-                <option value="conservative">Conservative Start (Bank Cushion)</option>
+                <option value="even" data-i18n="optStratEven">Even Splits (Metronomic)</option>
+                <option value="negative" data-i18n="optStratNeg">Negative Split (Faster 2nd Half)</option>
+                <option value="conservative" data-i18n="optStratCons">Conservative Start (Bank Cushion)</option>
               </select>
             </div>
           </div>
 
           <div class="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-slate-950 px-3 py-2.5">
             <div class="text-xs">
-              Required Avg Pace: <strong id="pb-summary-pace" class="font-mono text-volt">8:01 /mi</strong> · Avg Treadmill:
-              <strong id="pb-summary-speed" class="font-mono text-lime-300">7.5 MPH</strong>
+              <span data-i18n="pbAvgPaceLbl">Required Avg Pace:</span> <strong id="pb-summary-pace" class="font-mono text-volt">8:01 /mi</strong> ·
+              <span data-i18n="pbAvgSpdLbl">Avg Treadmill:</span> <strong id="pb-summary-speed" class="font-mono text-lime-300">7.5 MPH</strong>
             </div>
             <div class="flex flex-wrap gap-1.5">
-              <button id="pb-download-btn" type="button" class="min-h-10 rounded-xl bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-200 hover:border-volt">
+              <button id="pb-download-btn" type="button" data-i18n="pbSaveBtn" class="min-h-10 rounded-xl bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-200 hover:border-volt">
                 ⬇ Save (.txt)
               </button>
-              <button id="pb-print-btn" type="button" class="min-h-10 rounded-xl bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-200 hover:border-volt">
+              <button id="pb-print-btn" type="button" data-i18n="pbPrintBtn" class="min-h-10 rounded-xl bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-200 hover:border-volt">
                 🖨 Print Band
               </button>
-              <button type="button" data-open-share class="min-h-10 rounded-xl bg-volt px-3 py-1.5 text-xs font-extrabold text-slate-950">
+              <button type="button" data-open-share data-i18n="shareBtn" class="min-h-10 rounded-xl bg-volt px-3 py-1.5 text-xs font-extrabold text-slate-950">
                 Share / QR
               </button>
             </div>
           </div>
-          <p id="pb-error" hidden role="alert" class="mt-2 rounded-lg bg-red-500/15 p-2 text-xs text-red-300">
+          <p id="pb-error" hidden role="alert" data-i18n="pbErrorMsg" class="mt-2 rounded-lg bg-red-500/15 p-2 text-xs text-red-300">
             Please enter a realistic finish time for this race distance (e.g. 3:30:00 or 22:30).
           </p>
         </div>
@@ -759,10 +785,10 @@
             <caption class="sr-only">Race pace band split table</caption>
             <thead class="bg-slate-800 text-[11px] uppercase text-slate-400">
               <tr>
-                <th scope="col" class="py-2.5 pl-3 text-left">Split</th>
-                <th scope="col" class="py-2.5 text-right">Split Pace</th>
-                <th scope="col" class="py-2.5 text-right">Elapsed Time</th>
-                <th scope="col" class="py-2.5 pr-3 text-right">Treadmill Speed</th>
+                <th scope="col" data-i18n="thSplit" class="py-2.5 pl-3 text-left">Split</th>
+                <th scope="col" data-i18n="thSplitPace" class="py-2.5 text-right">Split Pace</th>
+                <th scope="col" data-i18n="thElapsed" class="py-2.5 text-right">Elapsed Time</th>
+                <th scope="col" data-i18n="thTmSpd" class="py-2.5 pr-3 text-right">Treadmill Speed</th>
               </tr>
             </thead>
             <tbody id="pb-body"></tbody>
@@ -771,7 +797,53 @@
       </section>
 
       <!-- =========================================================
-           심층 러닝 과학·바이오메카닉스·워크아웃 가이드 (AdSense 1,500+ 단어 필수 콘텐츠)
+           한국어 선택 시 표시되는 친절한 한국어 러닝 과학 & 워크아웃 핵심 가이드
+           ========================================================= -->
+      <section
+        id="ko-guide-summary"
+        hidden
+        class="mt-10 space-y-5 rounded-3xl border border-lime-400/40 bg-slate-900/90 p-5 text-sm leading-relaxed text-slate-200 sm:p-7"
+      >
+        <header class="border-b border-slate-800 pb-4">
+          <p class="text-xs font-bold uppercase tracking-widest text-volt">RunPaceStudio 한국어 스포츠 과학 가이드</p>
+          <h2 class="mt-1 text-xl font-extrabold text-white sm:text-2xl">
+            트레드밀 경사도(0~15%) 과학, 4대 핵심 워크아웃 &amp; 엘리트 주법 총정리
+          </h2>
+          <p class="mt-1 text-xs text-slate-400">
+            검증 논문: Jones &amp; Doust (1996), ACSM 대사 방정식, Jack Daniels VDOT, Minetti et al. (2002), Pugh (1971), Davies (1980)
+          </p>
+        </header>
+
+        <div class="space-y-2">
+          <h3 class="text-base font-extrabold text-lime-300">1. 왜 트레드밀 경사도 1%가 야외 평지와 같을까요? (0~15% GAP 원리)</h3>
+          <p class="text-xs sm:text-sm text-slate-300">
+            실내 트레드밀에서는 몸이 앞으로 나아가지 않고 제자리에서 뛰기 때문에 <strong>야외 달리기의 공기저항(바람 저항)</strong>이 사라집니다. 영국 스포츠과학자 Jones &amp; Doust(1996)의 산소섭취량($\text{VO}_2$) 실험에 따르면, 트레드밀 경사도를 <strong>1.0%</strong>로 세팅할 때 야외 평지를 달리는 것과 똑같은 에너지가 소모됩니다. 경사도를 1%씩 높일 때마다 같은 벨트 속도에서 산소 소모량은 약 <strong>4.5%씩 증가</strong>(ACSM 달리기 대사 공식: $\text{VO}_2 = 0.2v + 0.9vG + 3.5$)하며, 6~15% 고경사 훈련은 무릎 착지 충격을 최대 35% 줄이면서 심폐지구력과 둔근·종아리를 강력하게 단련해 줍니다.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="text-base font-extrabold text-lime-300">2. 4대 트레드밀 훈련 프로토콜 활용법</h3>
+          <ul class="list-disc space-y-1.5 pl-5 text-xs sm:text-sm text-slate-300">
+            <li><strong>① 인터벌 트레이닝 (Interval · I-Pace):</strong> 최대산소섭취량($\text{VO}_2\text{max}$)의 95~100% 강도로 3분 질주 + 2분 회복 조깅을 반복하여 심장 박출량과 최대 유산소 파워를 끌어올립니다.</li>
+            <li><strong>② 크루즈 러닝 (Cruise · T-Pace):</strong> 잭 다니엘스 박사와 노르웨이 대표팀이 핵심으로 삼는 젖산 역치(최대심박수의 88~92%, 약 1시간 동안 유지 가능한 빠르게 달리기) 훈련입니다. 6~8분 주행 후 단 1분의 짧은 조깅 휴식을 취해 젖산 제거 능력을 극대화합니다.</li>
+            <li><strong>③ 빌드업 런 (Build-up Progression):</strong> 워밍업 → 조깅 → 마라톤 페이스(M) → 역치 페이스(T)까지 4단계로 속도를 점진적으로 높여 마라톤 후반 30km 이후의 피로 저항력을 길러줍니다.</li>
+            <li><strong>④ 리커버리 &amp; MAF 런:</strong> 필 마페톤 박사의 <strong>MAF 180 공식(180 − 나이 + 건강보정)</strong> 이하의 낮은 심박수로 달려 부상을 예방하고 미토콘드리아와 모세혈관 밀도를 높입니다.</li>
+          </ul>
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="text-base font-extrabold text-lime-300">3. 속도별 엘리트 러너 4인의 주법 핵심 포인트</h3>
+          <ul class="list-disc space-y-1.5 pl-5 text-xs sm:text-sm text-slate-300">
+            <li><strong>코트니 도월터 (저속 리커버리 &amp; 6~15% 고경사 구간):</strong> 경사가 높아질수록 보폭을 짧게 줄이고(168~176 spm), 상체와 어깨 힘을 완전히 뺀 채 발목부터 살짝 기울여 골반 바로 아래에 착지합니다.</li>
+            <li><strong>엘리우드 킵초게 (마라톤 &amp; 빌드업 구간):</strong> 180~185 spm의 일정한 리듬, 발목부터 시작되는 3~5° 전경사, 몸통 중앙선을 넘지 않는 간결한 90° 팔치기로 에너지 손실을 최소화합니다.</li>
+            <li><strong>야콥 잉게브리그센 (크루즈 &amp; 역치 구간):</strong> 골반을 중립으로 단단히 고정하고 지면 접촉 시간(180ms 미만)을 짧게 가져가며 아킬레스건의 탄성 반발력을 극대화합니다.</li>
+            <li><strong>케네니사 베켈레 (고속 인터벌 구간):</strong> 190~200+ spm의 폭발적인 회전수, 뒷발이 엉덩이 가까이 접혀 올라오는 높은 힐 리커버리(Heel Recovery)와 강력한 팔 뒤로 치기로 최고 속도를 유지합니다.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           심층 러닝 과학·바이오메카닉스·워크아웃 가이드 (AdSense 1,500+ 단어 필수 영문 콘텐츠)
            ========================================================= -->
       <article id="guide-article" class="mt-10 space-y-6 rounded-3xl border border-slate-800 bg-slate-900/70 p-5 text-sm leading-relaxed text-slate-300 sm:p-7">
         <header class="border-b border-slate-800 pb-4">
@@ -884,7 +956,7 @@
           </p>
         </section>
 
-        <!-- Section 4B: Marathon Pacing Strategies & Steep Grade (6–15%) Mechanics -->
+        <!-- Section 5: Marathon Pacing Strategies & Steep Grade (6–15%) Mechanics -->
         <section class="space-y-3">
           <h3 class="text-lg font-extrabold text-white">
             5. Marathon Pacing Science (Even vs. Negative Splits) &amp; Steep Incline (6%–15%) Protocol
@@ -911,7 +983,7 @@
           </p>
         </section>
 
-        <!-- Section 5: Curated Runner Gear Slots (Amazon Associates Compliant) -->
+        <!-- Section 6: Curated Runner Gear Slots (Amazon Associates Compliant) -->
         <section class="space-y-3 border-t border-slate-800 pt-5">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <h3 class="text-lg font-extrabold text-white">6. Recommended Treadmill &amp; Marathon Training Gear</h3>
@@ -966,7 +1038,7 @@
           </div>
         </section>
 
-        <!-- Section 6: Frequently Asked Questions (Visible FAQ matching JSON-LD) -->
+        <!-- Section 7: Frequently Asked Questions -->
         <section class="space-y-3 border-t border-slate-800 pt-5">
           <h3 class="text-lg font-extrabold text-white">7. Frequently Asked Questions (FAQ)</h3>
           <details class="rounded-xl bg-slate-950 p-3.5">
@@ -1017,15 +1089,15 @@
            ========================================================= -->
       <footer class="mt-8 border-t border-slate-800 pt-5 text-xs text-slate-400">
         <div class="flex flex-wrap items-center justify-between gap-3">
-          <p>© <span id="year">2026</span> RunPaceStudio. Built for marathoners &amp; treadmill athletes.</p>
+          <p>© <span id="year">2026</span> RunPaceStudio. <span data-i18n="footerTagline">Built for marathoners &amp; treadmill athletes.</span></p>
           <nav aria-label="Footer legal and info links" class="flex flex-wrap gap-4 font-semibold text-slate-300">
-            <a href="about.html" class="hover:text-volt">About Us</a>
-            <a href="privacy.html" class="hover:text-volt">Privacy Policy</a>
-            <a href="contact.html" class="hover:text-volt">Contact</a>
+            <a href="about.html" data-i18n="navAbout" class="hover:text-volt">About Us</a>
+            <a href="privacy.html" data-i18n="navPrivacy" class="hover:text-volt">Privacy Policy</a>
+            <a href="contact.html" data-i18n="navContact" class="hover:text-volt">Contact</a>
             <a href="sitemap.xml" class="hover:text-volt">Sitemap</a>
           </nav>
         </div>
-        <p class="mt-2 text-[11px] text-slate-500">
+        <p data-i18n="footerDisclaimer" class="mt-2 text-[11px] text-slate-500">
           Disclaimer: RunPaceStudio provides sports-science estimates for educational and training purposes only and does not constitute medical advice. Always consult a qualified physician or certified coach before starting a high-intensity exercise program. All settings are stored locally on your device.
         </p>
       </footer>
@@ -1044,7 +1116,7 @@
     >
       <div class="w-full max-w-sm rounded-3xl border border-slate-700 bg-slate-900 p-5 text-center shadow-2xl">
         <div class="flex items-center justify-between">
-          <h2 id="share-modal-title" class="text-base font-extrabold text-white">Share with Running Crew</h2>
+          <h2 id="share-modal-title" data-i18n="shareModalTitle" class="text-base font-extrabold text-white">Share with Running Crew</h2>
           <button
             id="share-close-btn"
             type="button"
@@ -1054,7 +1126,7 @@
             ✕
           </button>
         </div>
-        <p class="mt-1 text-xs text-slate-400">
+        <p data-i18n="shareModalSub" class="mt-1 text-xs text-slate-400">
           Scan QR code with any phone camera or copy your exact speed &amp; incline link.
         </p>
         <div id="qr-container" class="my-4"></div>
@@ -1070,6 +1142,7 @@
           <button
             id="share-copy-btn"
             type="button"
+            data-i18n="btnCopyLink"
             class="min-h-11 rounded-xl bg-slate-800 px-3 text-xs font-extrabold text-slate-100 hover:border-volt"
           >
             Copy Link
@@ -1077,6 +1150,7 @@
           <button
             id="share-native-btn"
             type="button"
+            data-i18n="btnSharePhone"
             class="min-h-11 rounded-xl bg-volt px-3 text-xs font-extrabold text-slate-950"
           >
             Share via Phone
@@ -1093,25 +1167,25 @@
         <li>
           <button type="button" data-tab="pace" aria-current="page" class="flex h-16 w-full flex-col items-center justify-center gap-1 text-slate-400">
             <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>
-            <span class="text-[11px] font-extrabold">Incline &amp; Pace</span>
+            <span data-i18n="tab1Nav" class="text-[11px] font-extrabold">Incline &amp; Pace</span>
           </button>
         </li>
         <li>
           <button type="button" data-tab="workouts" class="flex h-16 w-full flex-col items-center justify-center gap-1 text-slate-400">
             <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 17l5-6 4 4 4-7 5 9"/></svg>
-            <span class="text-[11px] font-extrabold">Workouts &amp; Form</span>
+            <span data-i18n="tab2Nav" class="text-[11px] font-extrabold">Workouts &amp; Form</span>
           </button>
         </li>
         <li>
           <button type="button" data-tab="weather" class="flex h-16 w-full flex-col items-center justify-center gap-1 text-slate-400">
             <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36l-1.42 1.42M7.05 16.95l-1.42 1.42m12.73 0l-1.42-1.42M7.05 7.05L5.63 5.63"/><circle cx="12" cy="12" r="4"/></svg>
-            <span class="text-[11px] font-extrabold">Weather &amp; MAF</span>
+            <span data-i18n="tab3Nav" class="text-[11px] font-extrabold">Weather &amp; MAF</span>
           </button>
         </li>
         <li>
           <button type="button" data-tab="paceband" class="flex h-16 w-full flex-col items-center justify-center gap-1 text-slate-400">
             <svg aria-hidden="true" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
-            <span class="text-[11px] font-extrabold">Pace Band</span>
+            <span data-i18n="tab4Nav" class="text-[11px] font-extrabold">Pace Band</span>
           </button>
         </li>
       </ul>
